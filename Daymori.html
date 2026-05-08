@@ -4981,12 +4981,29 @@
     }
 
     html.tablet-runtime .top {
+      position: relative;
       margin: 0 2px 8px;
+      min-height: 56px;
+    }
+
+    html.tablet-runtime .top-copy {
+      padding-right: 188px;
+    }
+
+    html.tablet-runtime .top-actions {
+      position: absolute;
+      top: 0;
+      right: 0;
+      align-items: center;
+      gap: 10px;
     }
 
     html.tablet-runtime .nav {
       margin-top: 0;
       padding-top: 12px;
+      width: 100%;
+      justify-self: stretch;
+      align-self: stretch;
     }
 
     .nav {
@@ -6719,7 +6736,18 @@
       Number(window.screen?.width || window.innerWidth || 0),
       Number(window.screen?.height || window.innerHeight || 0)
     );
-    const isTabletLikeRuntime = !isDesktopShortcutRuntime && coarsePointer && shortScreenEdge >= 700;
+    const longScreenEdge = Math.max(
+      Number(window.screen?.width || window.innerWidth || 0),
+      Number(window.screen?.height || window.innerHeight || 0)
+    );
+    const isiPadLikeDevice = /iPad/i.test(String(window.navigator?.userAgent || '')) ||
+      (window.navigator?.platform === 'MacIntel' && Number(window.navigator?.maxTouchPoints || 0) > 1);
+    const isTabletLikeRuntime =
+      !isDesktopShortcutRuntime &&
+      (
+        isiPadLikeDevice ||
+        (coarsePointer && (shortScreenEdge >= 680 || (shortScreenEdge >= 560 && longScreenEdge >= 980)))
+      );
     const PERFORMANCE_MODE = isDesktopShortcutRuntime;
 
     if (isDesktopShortcutRuntime) {
