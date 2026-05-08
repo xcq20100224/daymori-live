@@ -2166,6 +2166,8 @@
     .everyday-panel {
       --everyday-slot-height: 58px;
       --everyday-line: rgba(214, 158, 120, 0.18);
+      --everyday-line-major: rgba(226, 216, 205, 0.2);
+      --everyday-line-minor: rgba(226, 216, 205, 0.14);
       display: grid;
       gap: 10px;
       position: relative;
@@ -2338,11 +2340,11 @@
 
     .everyday-time-slot {
       height: var(--everyday-slot-height);
-      border-bottom: 1px solid var(--everyday-line);
+      border-bottom: 1px solid var(--everyday-line-major);
       text-align: right;
-      font-size: 18px;
+      font-size: 15px;
       font-weight: 700;
-      color: #8d6f5a;
+      color: rgba(231, 222, 214, 0.2);
       letter-spacing: 0.01em;
       padding: 10px 12px 0 8px;
       user-select: none;
@@ -2351,8 +2353,18 @@
       box-sizing: border-box;
     }
 
+    .everyday-time-slot.is-hour {
+      color: rgba(231, 222, 214, 0.2);
+    }
+
+    .everyday-time-slot.is-half {
+      color: transparent;
+      border-bottom: 1px dashed var(--everyday-line-minor);
+      font-size: 0;
+    }
+
     .everyday-time-slot.active {
-      color: #f09b69;
+      color: #f0bf99;
       background: rgba(228, 125, 70, 0.12);
     }
 
@@ -2367,7 +2379,7 @@
       left: 12px;
       right: 12px;
       font-size: 13px;
-      color: #947d6f;
+      color: #b89e8c;
       z-index: 3;
       pointer-events: none;
     }
@@ -2393,6 +2405,40 @@
           var(--everyday-line) var(--everyday-slot-height)
         );
       scrollbar-width: thin;
+    }
+
+    .everyday-panel.is-evening-golden .everyday-timeline {
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0) 0,
+          rgba(0, 0, 0, 0) calc(var(--everyday-slot-height) * 38),
+          rgba(190, 128, 79, 0.16) calc(var(--everyday-slot-height) * 38),
+          rgba(190, 128, 79, 0.16) calc(var(--everyday-slot-height) * 44),
+          rgba(0, 0, 0, 0) calc(var(--everyday-slot-height) * 44),
+          rgba(0, 0, 0, 0) 100%
+        );
+    }
+
+    .everyday-panel.is-evening-golden .everyday-list {
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0) 0,
+          rgba(0, 0, 0, 0) calc(var(--everyday-slot-height) * 38),
+          rgba(190, 128, 79, 0.14) calc(var(--everyday-slot-height) * 38),
+          rgba(190, 128, 79, 0.14) calc(var(--everyday-slot-height) * 44),
+          rgba(0, 0, 0, 0) calc(var(--everyday-slot-height) * 44),
+          rgba(0, 0, 0, 0) 100%
+        ),
+        linear-gradient(90deg, rgba(182, 113, 74, 0.2), rgba(182, 113, 74, 0.2)) 20px 0 / 1px 100% no-repeat,
+        repeating-linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0) 0,
+          rgba(0, 0, 0, 0) calc(var(--everyday-slot-height) - 1px),
+          var(--everyday-line) calc(var(--everyday-slot-height) - 1px),
+          var(--everyday-line) var(--everyday-slot-height)
+        );
     }
 
     .everyday-spacer {
@@ -2612,8 +2658,10 @@
 
     .tag {
       font-size: 12px;
-      color: #9b775f;
-      background: rgba(255, 231, 209, 0.8);
+      color: #c8946f;
+      background: rgba(255, 231, 209, 0.14);
+      border: 1px solid rgba(208, 152, 112, 0.34);
+      font-weight: 700;
       border-radius: 999px;
       padding: 4px 9px;
       white-space: nowrap;
@@ -4859,12 +4907,14 @@
       opacity: 0.96;
     }
 
-    html.desktop-runtime body.vibe-obsidian.vibe-copper .app {
+    html.desktop-runtime body.vibe-obsidian.vibe-copper .app,
+    html.tablet-runtime body.vibe-obsidian.vibe-copper .app {
       --notebook-strip-w: 52px !important;
       --notebook-pad-left: calc(var(--notebook-strip-w) + 22px) !important;
     }
 
-    html.desktop-runtime body.vibe-obsidian.vibe-copper .app::before {
+    html.desktop-runtime body.vibe-obsidian.vibe-copper .app::before,
+    html.tablet-runtime body.vibe-obsidian.vibe-copper .app::before {
       background:
         repeating-linear-gradient(
           to bottom,
@@ -4880,7 +4930,8 @@
         inset -1px 0 0 rgba(255, 255, 255, 0.16) !important;
     }
 
-    html.desktop-runtime body.vibe-obsidian.vibe-copper .app::after {
+    html.desktop-runtime body.vibe-obsidian.vibe-copper .app::after,
+    html.tablet-runtime body.vibe-obsidian.vibe-copper .app::after {
       background:
         radial-gradient(circle at center, #f0ebe3 0 5.4px, #a9927f 5.4px 7.1px, rgba(0, 0, 0, 0) 7.3px)
           center top / 100% 52px repeat-y !important;
@@ -4889,15 +4940,53 @@
 
     html.desktop-runtime .page[data-page="everyday"] .everyday-panel,
     html.desktop-runtime .page[data-page="moris"] .panel,
+    html.tablet-runtime .page[data-page="everyday"] .everyday-panel,
+    html.tablet-runtime .page[data-page="moris"] .panel,
+    html.tablet-runtime .page[data-page="profile"] .panel,
     html.desktop-runtime .page[data-page="profile"] .panel {
       min-height: clamp(460px, calc(100vh - 250px), 700px);
     }
 
     html.desktop-runtime .page[data-page="moris"] .panel,
+    html.tablet-runtime .page[data-page="moris"] .panel,
+    html.tablet-runtime .page[data-page="profile"] .panel,
     html.desktop-runtime .page[data-page="profile"] .panel {
       display: grid;
       grid-template-rows: auto auto 1fr;
       align-content: start;
+    }
+
+    html.tablet-runtime body {
+      padding: 14px;
+    }
+
+    html.tablet-runtime .app {
+      width: min(1180px, 100%) !important;
+      min-height: calc(100vh - 60px);
+      border-radius: 36px;
+      padding: 16px 24px 20px var(--notebook-pad-left) !important;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      grid-template-areas:
+        "top top"
+        "hero hero"
+        "section section"
+        "cards cards"
+        "nav nav";
+      gap: 16px;
+    }
+
+    html.tablet-runtime .app > .page {
+      grid-column: 1 / -1;
+    }
+
+    html.tablet-runtime .top {
+      margin: 0 2px 8px;
+    }
+
+    html.tablet-runtime .nav {
+      margin-top: 0;
+      padding-top: 12px;
     }
 
     .nav {
@@ -5804,6 +5893,78 @@
       backdrop-filter: blur(14px) saturate(1.1) !important;
       -webkit-backdrop-filter: blur(14px) saturate(1.1) !important;
     }
+
+    /* Moris/Profile readability fix */
+    body.vibe-obsidian .page[data-page="moris"] .refi-placeholder-card,
+    body.vibe-obsidian .page[data-page="profile"] .refi-placeholder-card,
+    body.vibe-obsidian.vibe-copper .page[data-page="moris"] .refi-placeholder-card,
+    body.vibe-obsidian.vibe-copper .page[data-page="profile"] .refi-placeholder-card {
+      background: linear-gradient(152deg, rgba(246, 238, 226, 0.96), rgba(235, 223, 206, 0.94)) !important;
+      border-color: rgba(164, 127, 98, 0.42) !important;
+    }
+
+    body.vibe-obsidian .page[data-page="moris"] .refi-placeholder-card strong,
+    body.vibe-obsidian .page[data-page="profile"] .refi-placeholder-card strong,
+    body.vibe-obsidian.vibe-copper .page[data-page="moris"] .refi-placeholder-card strong,
+    body.vibe-obsidian.vibe-copper .page[data-page="profile"] .refi-placeholder-card strong {
+      color: #4a372b !important;
+      text-shadow: none !important;
+    }
+
+    body.vibe-obsidian .page[data-page="moris"] .refi-placeholder-card span,
+    body.vibe-obsidian .page[data-page="profile"] .refi-placeholder-card span,
+    body.vibe-obsidian.vibe-copper .page[data-page="moris"] .refi-placeholder-card span,
+    body.vibe-obsidian.vibe-copper .page[data-page="profile"] .refi-placeholder-card span {
+      color: #6a5546 !important;
+      text-shadow: none !important;
+    }
+
+    /* Glass card unification */
+    .hero h2,
+    .hero-focus-title {
+      font-family: "Manrope", "Inter", "SF Pro Display", "SF Pro Text", "PingFang SC", "Segoe UI", sans-serif;
+      font-weight: 800;
+      font-style: italic;
+      letter-spacing: -0.01em;
+    }
+
+    .mini-card,
+    .mori-home-card,
+    .panel,
+    .profile-card,
+    .refi-placeholder-card,
+    .task-item,
+    .discover-card,
+    .everyday-item,
+    .everyday-day-chip {
+      border-radius: 20px !important;
+      box-shadow:
+        0 16px 34px rgba(21, 13, 8, 0.3),
+        inset 0 1px 0 rgba(255, 242, 226, 0.24),
+        inset 0 0 0 1px rgba(255, 218, 184, 0.12) !important;
+    }
+
+    body.vibe-obsidian .page[data-page="habit"] .panel p,
+    body.vibe-obsidian .page[data-page="habit"] .journal-meta,
+    body.vibe-obsidian .page[data-page="habit"] .profile-stat,
+    body.vibe-obsidian.vibe-copper .page[data-page="habit"] .panel p,
+    body.vibe-obsidian.vibe-copper .page[data-page="habit"] .journal-meta,
+    body.vibe-obsidian.vibe-copper .page[data-page="habit"] .profile-stat {
+      color: #e3cfbb !important;
+    }
+
+    body.vibe-obsidian .page[data-page="habit"] .tag,
+    body.vibe-obsidian.vibe-copper .page[data-page="habit"] .tag {
+      color: #f6dcc4 !important;
+      background: rgba(186, 130, 89, 0.26) !important;
+      border-color: rgba(213, 157, 116, 0.54) !important;
+    }
+
+    body.vibe-obsidian .page[data-page="everyday"] .everyday-time-slot.is-hour,
+    body.vibe-obsidian.vibe-copper .page[data-page="everyday"] .everyday-time-slot.is-hour {
+      color: rgba(232, 222, 213, 0.2) !important;
+    }
+
   </style>
 </head>
 <body class="vibe-obsidian vibe-copper home-page-active">
@@ -5856,7 +6017,6 @@
       <section class="section-head">
         <h3>Today for growth</h3>
         <div class="growth-knob-wrap">
-          <span class="growth-knob-label">Slide for more</span>
           <div id="growthRail" class="growth-rail" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Carousel knob">
             <button id="growthKnob" class="growth-knob" type="button" aria-label="Drag to explore more"></button>
           </div>
@@ -5985,7 +6145,7 @@
             <div>
               <h4>Schedule</h4>
               <div id="everydayDateHeadline" class="everyday-date-headline">Friday, Mar 20</div>
-              <p id="everydayDateSubline" class="everyday-date-subline">Pick a slot, then add your task.</p>
+              <p id="everydayDateSubline" class="everyday-date-subline">Tap a slot, or double-tap blank area to quick add.</p>
             </div>
             <button id="everydayOpenComposer" class="everyday-plus-btn" type="button" aria-label="Add schedule task">+</button>
           </div>
@@ -6007,7 +6167,7 @@
 
           <section class="everyday-agenda-wrap" aria-label="Day agenda">
             <div class="everyday-rail-label">Agenda</div>
-            <div id="everydayEmpty" class="everyday-empty">No plans for this day yet. Add your first block.</div>
+            <div id="everydayEmpty" class="everyday-empty">No plans for this day yet. Double-tap blank area or long-press + to quick add.</div>
             <ul id="everydayList" class="everyday-list" aria-live="polite"></ul>
           </section>
         </div>
@@ -6023,7 +6183,7 @@
               <select id="everydayComposerEnd" class="everyday-field" aria-label="End time"></select>
             </div>
             <div id="everydaySelectedTime" class="everyday-selected-time">Selected: 09:00 - 09:30</div>
-            <input id="everydayTitle" class="everyday-field title" type="text" maxlength="100" placeholder="Write your task" aria-label="Plan title" />
+            <input id="everydayTitle" class="everyday-field title" type="text" maxlength="100" placeholder="添加专注时段（例如：数学刷题 90分钟）" aria-label="Plan title" />
             <textarea id="everydayNote" class="everyday-field" maxlength="220" placeholder="Optional details"></textarea>
             <button id="everydayAdd" class="solid-btn everyday-add" type="button">Save task</button>
           </div>
@@ -6449,6 +6609,7 @@
     const everydayEmpty = document.getElementById('everydayEmpty');
     const everydayPrevDayBtn = document.getElementById('everydayPrevDay');
     const everydayNextDayBtn = document.getElementById('everydayNextDay');
+    const everydayPanelRoot = document.querySelector('.page[data-page="everyday"] .everyday-panel');
 
     const taskChecks = document.querySelectorAll('[data-task]');
     const progressBar = document.getElementById('progressBar');
@@ -6551,10 +6712,22 @@
       window.location.protocol === 'file:' ||
       window.location.hostname === 'localhost' ||
       window.location.hostname === '127.0.0.1';
+    const coarsePointer = typeof window.matchMedia === 'function'
+      ? window.matchMedia('(pointer: coarse)').matches
+      : false;
+    const shortScreenEdge = Math.min(
+      Number(window.screen?.width || window.innerWidth || 0),
+      Number(window.screen?.height || window.innerHeight || 0)
+    );
+    const isTabletLikeRuntime = !isDesktopShortcutRuntime && coarsePointer && shortScreenEdge >= 700;
     const PERFORMANCE_MODE = isDesktopShortcutRuntime;
 
     if (isDesktopShortcutRuntime) {
       document.documentElement.classList.add('desktop-runtime');
+    }
+
+    if (isTabletLikeRuntime) {
+      document.documentElement.classList.add('tablet-runtime');
     }
 
     if (PERFORMANCE_MODE) {
@@ -6594,6 +6767,8 @@
     };
     let everydayComposerEditingId = null;
     let everydayScheduleScrollSyncLock = false;
+    let everydayPlusLongPressTimer = null;
+    let everydayPlusLongPressTriggered = false;
 
     let moriTimerHandle = null;
     let activePageName = document.querySelector('.page.active-page')?.dataset.page || 'home';
@@ -8032,7 +8207,21 @@
       }
       setAppRepairStatus('正在修复并拉取最新版本，请稍候...', 'busy');
 
+      const stamp = Date.now();
+      const repairedUrl = new URL('./Daymori.html', window.location.href);
+      repairedUrl.searchParams.set('repair', String(stamp));
+
+      const goToRepairedUrl = () => {
+        const targetHref = repairedUrl.toString();
+        try {
+          window.location.replace(targetHref);
+        } catch (error) {
+          window.location.href = targetHref;
+        }
+      };
+
       try {
+        // Phase 1: drop old caches aggressively.
         if ('caches' in window) {
           try {
             const cacheKeys = await caches.keys();
@@ -8042,40 +8231,56 @@
           }
         }
 
+        // Phase 2: force SW update + activate waiting worker + unregister old workers.
         if ('serviceWorker' in navigator) {
           try {
             const registrations = await navigator.serviceWorker.getRegistrations();
             await Promise.all(registrations.map((registration) => registration.update().catch(() => Promise.resolve())));
+
+            registrations.forEach((registration) => {
+              try {
+                if (registration.waiting) {
+                  registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                }
+              } catch (error) {
+                // Ignore cross-runtime postMessage issues.
+              }
+            });
+
+            try {
+              if (navigator.serviceWorker.controller) {
+                navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
+              }
+            } catch (error) {
+              // Ignore missing/locked controller channels.
+            }
+
+            await Promise.all(registrations.map((registration) => registration.unregister().catch(() => true)));
           } catch (error) {
             // Service worker APIs can be unavailable in insecure contexts.
           }
         }
 
-        setAppRepairStatus('修复完成，正在刷新到最新版本...', 'busy');
-
-        const stamp = 'repair=' + Date.now();
-        let targetHref = window.location.href.replace(/([?&])repair=\d+(&?)/, (match, prefix, suffix) => {
-          if (!suffix || suffix === '&') {
-            return prefix === '?' ? '?' : '';
-          }
-          return prefix;
-        });
-        if (targetHref.endsWith('?') || targetHref.endsWith('&')) {
-          targetHref = targetHref.slice(0, -1);
-        }
-        targetHref += (targetHref.includes('?') ? '&' : '?') + stamp;
-
+        // Phase 3: prefetch latest shell without cache, then navigate with a repair stamp.
         try {
-          window.location.replace(targetHref);
+          await fetch(repairedUrl.toString(), { cache: 'no-store', credentials: 'same-origin' });
         } catch (error) {
-          window.location.href = targetHref;
+          // Network fetch may fail offline; keep going with stamped navigation.
         }
+
+        setAppRepairStatus('修复完成，正在刷新到最新版本...', 'busy');
+        goToRepairedUrl();
       } catch (error) {
-        if (appRepairBtn) {
-          appRepairBtn.disabled = false;
-          appRepairBtn.textContent = '应用修复并刷新';
-        }
-        setAppRepairStatus('修复失败，请稍后再试。', 'error');
+        setAppRepairStatus('修复过程中有阻碍，正在尝试强制刷新...', 'busy');
+        goToRepairedUrl();
+
+        setTimeout(() => {
+          if (appRepairBtn) {
+            appRepairBtn.disabled = false;
+            appRepairBtn.textContent = '应用修复并刷新';
+          }
+          setAppRepairStatus('修复失败，请稍后再试。', 'error');
+        }, 1600);
       }
     }
 
@@ -8236,12 +8441,32 @@
       }
 
       if (everydayDateSubline) {
-        everydayDateSubline.textContent = new Intl.DateTimeFormat('en-US', {
+        const dateLabel = new Intl.DateTimeFormat('en-US', {
           year: 'numeric',
           month: 'short',
           day: 'numeric'
         }).format(selectedDateObj);
+        everydayDateSubline.textContent = dateLabel + ' · Double-tap blank area or long-press + to quick add.';
       }
+    }
+
+    function isSameLocalDay(left, right) {
+      return left.getFullYear() === right.getFullYear()
+        && left.getMonth() === right.getMonth()
+        && left.getDate() === right.getDate();
+    }
+
+    function updateEverydayGoldenTimeHint() {
+      if (!(everydayPanelRoot instanceof HTMLElement)) {
+        return;
+      }
+
+      const selectedDateObj = parseInputDate(everydayScheduleState.selectedDate);
+      const now = new Date();
+      const isToday = Boolean(selectedDateObj) && isSameLocalDay(selectedDateObj, now);
+      const isEvening = now.getHours() >= 18;
+
+      everydayPanelRoot.classList.toggle('is-evening-golden', Boolean(isToday && isEvening));
     }
 
     function renderEverydayWeekStrip() {
@@ -8375,9 +8600,11 @@
       const fragment = document.createDocumentFragment();
       for (let minute = 0; minute < 24 * 60; minute += EVERYDAY_TIMELINE_STEP) {
         const slot = document.createElement('li');
-        slot.className = 'everyday-time-slot';
+        const isHalf = minute % 60 !== 0;
+        slot.className = 'everyday-time-slot ' + (isHalf ? 'is-half' : 'is-hour');
         slot.dataset.minute = String(minute);
-        slot.textContent = minuteToEverydayTime(minute);
+        slot.textContent = isHalf ? '' : minuteToEverydayTime(minute);
+        slot.setAttribute('aria-label', minuteToEverydayTime(minute));
         fragment.appendChild(slot);
       }
       everydayTimeline.appendChild(fragment);
@@ -8569,6 +8796,7 @@
       }
 
       renderEverydayDateHeadline();
+      updateEverydayGoldenTimeHint();
       renderEverydayWeekStrip();
       renderEverydayPlans();
 
@@ -9793,12 +10021,63 @@
       everydayList.addEventListener('scroll', () => {
         syncEverydayScroll(everydayList, everydayTimeline);
       });
+
+      everydayList.addEventListener('dblclick', (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) {
+          return;
+        }
+        if (target.closest('.everyday-item, button, input, textarea, select, a')) {
+          return;
+        }
+
+        const rect = everydayList.getBoundingClientRect();
+        const y = event.clientY - rect.top + everydayList.scrollTop;
+        const firstSlot = everydayTimeline && everydayTimeline.firstElementChild;
+        const slotHeight = firstSlot instanceof HTMLElement
+          ? Math.max(firstSlot.getBoundingClientRect().height, 1)
+          : 58;
+        const minute = clampEverydayMinute(Math.floor(Math.max(0, y) / slotHeight) * EVERYDAY_TIMELINE_STEP);
+
+        setEverydaySelectedMinute(minute, { behavior: 'smooth' });
+        openEverydayComposer();
+      });
     }
 
     if (everydayOpenComposerBtn) {
-      everydayOpenComposerBtn.addEventListener('click', () => {
+      everydayOpenComposerBtn.addEventListener('click', (event) => {
+        if (everydayPlusLongPressTriggered) {
+          event.preventDefault();
+          everydayPlusLongPressTriggered = false;
+          return;
+        }
         openEverydayComposer();
       });
+
+      everydayOpenComposerBtn.addEventListener('pointerdown', (event) => {
+        if (event.button !== 0) {
+          return;
+        }
+        everydayPlusLongPressTriggered = false;
+        if (everydayPlusLongPressTimer) {
+          clearTimeout(everydayPlusLongPressTimer);
+        }
+        everydayPlusLongPressTimer = setTimeout(() => {
+          everydayPlusLongPressTriggered = true;
+          openEverydayComposer();
+        }, 520);
+      });
+
+      const clearEverydayPlusLongPress = () => {
+        if (everydayPlusLongPressTimer) {
+          clearTimeout(everydayPlusLongPressTimer);
+          everydayPlusLongPressTimer = null;
+        }
+      };
+
+      everydayOpenComposerBtn.addEventListener('pointerup', clearEverydayPlusLongPress);
+      everydayOpenComposerBtn.addEventListener('pointercancel', clearEverydayPlusLongPress);
+      everydayOpenComposerBtn.addEventListener('pointerleave', clearEverydayPlusLongPress);
     }
 
     if (everydayComposerCloseBtn) {
@@ -10064,9 +10343,20 @@
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(() => {
-          // Keep silent on SW failures to avoid interrupting the core experience.
-        });
+        navigator.serviceWorker.register('./sw.js')
+          .then((registration) => {
+            registration.update().catch(() => Promise.resolve());
+            if (registration.waiting) {
+              try {
+                registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+              } catch (error) {
+                // Ignore waiting worker messaging failures.
+              }
+            }
+          })
+          .catch(() => {
+            // Keep silent on SW failures to avoid interrupting the core experience.
+          });
       });
     }
 
