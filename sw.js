@@ -1,4 +1,4 @@
-const CACHE_NAME = "daymori-cache-v4";
+const CACHE_NAME = "daymori-cache-v5";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -29,6 +29,16 @@ self.addEventListener("activate", (event) => {
     )
   );
   self.clients.claim();
+});
+
+self.addEventListener("message", (event) => {
+  const data = event && event.data;
+  if (!data || typeof data !== "object") {
+    return;
+  }
+  if (data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener("fetch", (event) => {
