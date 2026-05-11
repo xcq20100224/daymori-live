@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Daymori - Discipline Home Template</title>
+  <title>Daymori - Discipline Home Template - Warm v4</title>
   <link rel="manifest" href="manifest.webmanifest" />
-  <meta name="theme-color" content="#1A1614" />
+  <meta name="theme-color" content="#B88A66" />
   <style>
     :root {
       --bg: #fff8ef;
@@ -3620,6 +3620,28 @@
       background: rgba(255, 250, 243, 0.92);
     }
 
+    .mori-voice-config.guide-glow {
+      box-shadow:
+        0 0 0 2px rgba(230, 143, 81, 0.78),
+        0 10px 24px rgba(204, 116, 58, 0.28);
+      animation: mori-voice-guide-glow 1.35s ease-in-out 1;
+    }
+
+    @keyframes mori-voice-guide-glow {
+      0% {
+        transform: translateY(0);
+        filter: saturate(1);
+      }
+      35% {
+        transform: translateY(-1px);
+        filter: saturate(1.08);
+      }
+      100% {
+        transform: translateY(0);
+        filter: saturate(1);
+      }
+    }
+
     .mori-voice-config small {
       color: #8f7260;
       font-size: 12px;
@@ -5723,19 +5745,19 @@
     /* Dark Amber / Glassmorphism refresh */
     body.vibe-obsidian,
     body.vibe-obsidian.vibe-copper {
-      --bg: #1A1614 !important;
-      --paper: #241d19 !important;
-      --text-strong: #f3eadf !important;
-      --text: #d4c6b7 !important;
-      --muted: #a8947f !important;
-      --cta: #c17b3e !important;
-      --cta-strong: #9a5f2f !important;
-      --stroke: rgba(204, 150, 98, 0.24) !important;
+      --bg: #241f1d !important;
+      --paper: #332b28 !important;
+      --text-strong: #f7eee8 !important;
+      --text: #ddc9bc !important;
+      --muted: #b7a398 !important;
+      --cta: #d7b08b !important;
+      --cta-strong: #b48365 !important;
+      --stroke: rgba(216, 182, 160, 0.28) !important;
       background:
-        radial-gradient(circle at 82% 8%, rgba(151, 92, 42, 0.2) 0%, rgba(151, 92, 42, 0) 42%),
-        radial-gradient(circle at 18% 22%, rgba(118, 72, 37, 0.18) 0%, rgba(118, 72, 37, 0) 44%),
-        linear-gradient(180deg, #211b17 0%, #1A1614 100%) !important;
-      color: #d4c6b7 !important;
+        radial-gradient(circle at 82% 8%, rgba(220, 177, 152, 0.18) 0%, rgba(220, 177, 152, 0) 42%),
+        radial-gradient(circle at 18% 22%, rgba(210, 176, 129, 0.16) 0%, rgba(210, 176, 129, 0) 44%),
+        linear-gradient(180deg, #302725 0%, #241f1d 100%) !important;
+      color: #ddc9bc !important;
     }
 
     .app {
@@ -5753,12 +5775,12 @@
     body.vibe-obsidian .app,
     body.vibe-obsidian.vibe-copper .app {
       background:
-        radial-gradient(120% 90% at 8% 0%, rgba(175, 117, 66, 0.14), rgba(175, 117, 66, 0) 56%),
-        linear-gradient(154deg, rgba(40, 31, 26, 0.82), rgba(30, 24, 20, 0.8) 56%, rgba(25, 21, 18, 0.8)) !important;
-      border: 1px solid rgba(197, 144, 94, 0.24) !important;
+        radial-gradient(120% 90% at 8% 0%, rgba(226, 188, 151, 0.14), rgba(226, 188, 151, 0) 56%),
+        linear-gradient(154deg, rgba(66, 54, 49, 0.82), rgba(54, 44, 40, 0.8) 56%, rgba(43, 36, 33, 0.82)) !important;
+      border: 1px solid rgba(214, 176, 144, 0.26) !important;
       box-shadow:
         0 26px 56px rgba(0, 0, 0, 0.45),
-        inset 0 1px 0 rgba(255, 222, 188, 0.14) !important;
+        inset 0 1px 0 rgba(255, 232, 212, 0.14) !important;
       backdrop-filter: blur(14px) saturate(1.08) !important;
       -webkit-backdrop-filter: blur(14px) saturate(1.08) !important;
     }
@@ -5766,12 +5788,13 @@
     body.vibe-obsidian .hero,
     body.vibe-obsidian.vibe-copper .hero {
       background:
-        radial-gradient(circle at 86% 14%, rgba(238, 177, 117, 0.22), rgba(238, 177, 117, 0) 42%),
-        linear-gradient(145deg, rgba(61, 46, 37, 0.76), rgba(48, 37, 30, 0.66) 54%, rgba(42, 34, 28, 0.64)) !important;
-      border: 1px solid rgba(220, 168, 114, 0.32) !important;
+        radial-gradient(circle at 14% 10%, rgba(242, 166, 122, 0.28), rgba(242, 166, 122, 0) 42%),
+        radial-gradient(circle at 86% 14%, rgba(244, 171, 90, 0.3), rgba(244, 171, 90, 0) 44%),
+        linear-gradient(145deg, rgba(110, 74, 51, 0.84), rgba(96, 62, 40, 0.76) 54%, rgba(78, 50, 35, 0.74)) !important;
+      border: 1px solid rgba(239, 170, 118, 0.4) !important;
       box-shadow:
         0 18px 42px rgba(0, 0, 0, 0.42),
-        inset 0 1px 0 rgba(255, 226, 193, 0.28) !important;
+        inset 0 1px 0 rgba(255, 234, 217, 0.28) !important;
       backdrop-filter: blur(18px) saturate(1.12) !important;
       -webkit-backdrop-filter: blur(18px) saturate(1.12) !important;
       transform: translateY(-1px);
@@ -5779,25 +5802,68 @@
 
     body.vibe-obsidian .hero h2,
     body.vibe-obsidian.vibe-copper .hero h2 {
-      color: #f5ecdf !important;
+      color: #fbf2ea !important;
       text-shadow: 0 8px 22px rgba(0, 0, 0, 0.36);
+    }
+
+    body.vibe-obsidian .hero-focus-seat,
+    body.vibe-obsidian.vibe-copper .hero-focus-seat {
+      color: #ffd0a2 !important;
+      text-shadow: 0 4px 14px rgba(154, 74, 20, 0.38);
+    }
+
+    body.vibe-obsidian .theme-build-badge,
+    body.vibe-obsidian.vibe-copper .theme-build-badge {
+      display: inline-flex;
+      align-items: center;
+      margin-left: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #fff7ee !important;
+      background: linear-gradient(140deg, rgba(226, 132, 61, 0.94), rgba(188, 98, 36, 0.92)) !important;
+      border: 1px solid rgba(255, 206, 166, 0.58) !important;
+      box-shadow: 0 6px 14px rgba(61, 28, 10, 0.3), inset 0 1px 0 rgba(255, 236, 216, 0.34) !important;
+      vertical-align: middle;
+    }
+
+    body.vibe-obsidian .runtime-theme-badge,
+    body.vibe-obsidian.vibe-copper .runtime-theme-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 74px;
+      height: 30px;
+      margin-right: 10px;
+      padding: 0 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: #fff7ee !important;
+      background: linear-gradient(138deg, rgba(239, 148, 71, 0.96), rgba(202, 108, 39, 0.94)) !important;
+      border: 1px solid rgba(255, 210, 167, 0.64) !important;
+      box-shadow: 0 8px 16px rgba(70, 32, 10, 0.34), inset 0 1px 0 rgba(255, 237, 215, 0.42) !important;
     }
 
     body.vibe-obsidian .hero-focus-btn,
     body.vibe-obsidian.vibe-copper .hero-focus-btn {
-      background: linear-gradient(140deg, #d08a48, #ad6a35 62%, #91572b) !important;
-      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 220, 180, 0.36) !important;
+      background: linear-gradient(140deg, #f3bb72, #e08e40 62%, #c6661e) !important;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.34), inset 0 1px 0 rgba(255, 239, 225, 0.4) !important;
     }
 
     body.vibe-obsidian .mini-card,
     body.vibe-obsidian.vibe-copper .mini-card {
-      border: 1px solid rgba(204, 147, 95, 0.28) !important;
+      border: 1px solid rgba(213, 173, 141, 0.3) !important;
       background:
-        radial-gradient(circle at 84% 12%, rgba(227, 164, 102, 0.2), rgba(227, 164, 102, 0) 42%),
-        linear-gradient(154deg, rgba(56, 43, 36, 0.8), rgba(45, 36, 31, 0.76) 56%, rgba(38, 31, 26, 0.75)) !important;
+        radial-gradient(circle at 84% 12%, rgba(226, 188, 149, 0.18), rgba(226, 188, 149, 0) 42%),
+        linear-gradient(154deg, rgba(78, 64, 57, 0.8), rgba(64, 53, 47, 0.76) 56%, rgba(52, 44, 39, 0.74)) !important;
       box-shadow:
         0 16px 30px rgba(0, 0, 0, 0.34),
-        inset 0 1px 0 rgba(255, 218, 181, 0.2) !important;
+        inset 0 1px 0 rgba(255, 233, 214, 0.2) !important;
       transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
       will-change: transform;
     }
@@ -5806,7 +5872,7 @@
       transform: translateY(-6px) scale(1.03);
       box-shadow:
         0 24px 38px rgba(0, 0, 0, 0.42),
-        inset 0 1px 0 rgba(255, 226, 194, 0.24) !important;
+        inset 0 1px 0 rgba(255, 237, 222, 0.24) !important;
       filter: brightness(1.05);
     }
 
@@ -5830,10 +5896,10 @@
       align-items: center;
       justify-content: center;
       margin-bottom: 10px;
-      background: rgba(251, 223, 192, 0.08);
-      border: 1px solid rgba(238, 183, 130, 0.32);
-      box-shadow: inset 0 1px 0 rgba(255, 236, 214, 0.2);
-      color: #f1c18c;
+      background: rgba(242, 215, 192, 0.1);
+      border: 1px solid rgba(224, 183, 149, 0.32);
+      box-shadow: inset 0 1px 0 rgba(255, 239, 224, 0.2);
+      color: #e7c7aa;
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
     }
@@ -5861,7 +5927,7 @@
     body.vibe-obsidian.vibe-copper .mori-home-card h4,
     body.vibe-obsidian.vibe-copper .profile-row,
     body.vibe-obsidian.vibe-copper .task-item label {
-      color: #f3eadf !important;
+      color: #f7eee8 !important;
     }
 
     body.vibe-obsidian .subtitle,
@@ -5872,7 +5938,7 @@
     body.vibe-obsidian.vibe-copper .mini-desc,
     body.vibe-obsidian.vibe-copper .panel p,
     body.vibe-obsidian.vibe-copper .profile-stat {
-      color: #cab7a2 !important;
+      color: #c6b0a2 !important;
     }
 
     body.vibe-obsidian .panel,
@@ -5890,27 +5956,58 @@
     body.vibe-obsidian.vibe-copper .everyday-item,
     body.vibe-obsidian.vibe-copper .everyday-day-chip {
       background:
-        radial-gradient(120% 84% at 6% 0%, rgba(181, 122, 72, 0.12), rgba(181, 122, 72, 0) 54%),
-        linear-gradient(154deg, rgba(52, 40, 33, 0.74), rgba(42, 34, 29, 0.7)) !important;
-      border-color: rgba(198, 142, 92, 0.24) !important;
-      box-shadow: 0 14px 26px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 223, 192, 0.16) !important;
+        radial-gradient(120% 84% at 6% 0%, rgba(223, 182, 147, 0.12), rgba(223, 182, 147, 0) 54%),
+        linear-gradient(154deg, rgba(73, 59, 52, 0.74), rgba(59, 49, 44, 0.72)) !important;
+      border-color: rgba(212, 172, 138, 0.24) !important;
+      box-shadow: 0 14px 26px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 231, 212, 0.16) !important;
       backdrop-filter: blur(11px) saturate(1.06) !important;
       -webkit-backdrop-filter: blur(11px) saturate(1.06) !important;
     }
 
     body.vibe-obsidian .pill,
     body.vibe-obsidian.vibe-copper .pill {
-      background: rgba(44, 35, 30, 0.75) !important;
-      border-color: rgba(216, 162, 109, 0.34) !important;
-      color: #efd8be !important;
+      background: rgba(89, 71, 62, 0.75) !important;
+      border-color: rgba(217, 176, 142, 0.34) !important;
+      color: #f5e5d6 !important;
     }
 
     body.vibe-obsidian .nav,
     body.vibe-obsidian.vibe-copper .nav {
-      background: linear-gradient(160deg, rgba(37, 30, 25, 0.8), rgba(28, 23, 19, 0.76)) !important;
-      border-color: rgba(194, 140, 91, 0.24) !important;
+      background: linear-gradient(160deg, rgba(68, 54, 48, 0.82), rgba(52, 42, 37, 0.78)) !important;
+      border-color: rgba(205, 165, 133, 0.24) !important;
       backdrop-filter: blur(14px) saturate(1.1) !important;
       -webkit-backdrop-filter: blur(14px) saturate(1.1) !important;
+    }
+
+    body.vibe-obsidian .plan-pull-tab,
+    body.vibe-obsidian.vibe-copper .plan-pull-tab {
+      background: linear-gradient(168deg, rgba(182, 112, 61, 0.98), rgba(154, 90, 43, 0.98) 48%, rgba(121, 69, 34, 0.98)) !important;
+      border-color: rgba(236, 166, 108, 0.54) !important;
+      color: #fdf3e9 !important;
+    }
+
+    body.vibe-obsidian .plan-pull-handle,
+    body.vibe-obsidian.vibe-copper .plan-pull-handle {
+      background: linear-gradient(180deg, rgba(209, 138, 83, 0.98), rgba(162, 98, 50, 0.98)) !important;
+    }
+
+    body.vibe-obsidian .growth-knob-label,
+    body.vibe-obsidian.vibe-copper .growth-knob-label {
+      color: #e2b385 !important;
+    }
+
+    body.vibe-obsidian .growth-rail,
+    body.vibe-obsidian.vibe-copper .growth-rail {
+      border-color: rgba(236, 166, 108, 0.58) !important;
+      background: linear-gradient(145deg, rgba(115, 74, 46, 0.88), rgba(92, 58, 33, 0.86)) !important;
+      box-shadow: inset 0 2px 5px rgba(127, 68, 30, 0.32) !important;
+    }
+
+    body.vibe-obsidian .growth-knob,
+    body.vibe-obsidian.vibe-copper .growth-knob {
+      border-color: rgba(236, 162, 94, 0.78) !important;
+      background: radial-gradient(circle at 33% 30%, rgba(255, 247, 239, 0.98), rgba(241, 157, 72, 0.96)) !important;
+      box-shadow: 0 6px 12px rgba(40, 23, 15, 0.38), inset 0 1px 1px rgba(255, 255, 255, 0.72) !important;
     }
 
     /* Moris/Profile readability fix */
@@ -6016,6 +6113,7 @@
       </div>
       <div class="top-actions">
         <button id="installAppBtn" class="install-app" type="button" hidden disabled>Install App</button>
+        <span class="runtime-theme-badge" aria-hidden="true">Warm v4</span>
         <button id="planPullTab" class="plan-pull-tab" type="button" aria-label="Pull down plan board">
           <span class="plan-pull-label">Plan</span>
           <span class="plan-pull-handle" aria-hidden="true"></span>
@@ -6027,7 +6125,7 @@
     <section class="page active-page" data-page="home">
       <section class="hero">
         <div class="hero-copy">
-          <h2 class="hero-focus-title">Let&rsquo;s fo<span class="hero-focus-seat">cus<span class="hero-mini-mori" aria-hidden="true"><span class="mini-eye left"></span><span class="mini-eye right"></span></span></span>!</h2>
+          <h2 class="hero-focus-title">Let&rsquo;s fo<span class="hero-focus-seat">cus<span class="hero-mini-mori" aria-hidden="true"><span class="mini-eye left"></span><span class="mini-eye right"></span></span></span>!<span class="theme-build-badge" aria-hidden="true">Warm v4</span></h2>
           <button class="hero-focus-btn" type="button" data-switch="focus">Go！</button>
         </div>
         <span id="homeMoriMascot" class="hero-mori-anchor" aria-hidden="true"></span>
@@ -6529,18 +6627,18 @@
               <div id="moriEmotionLog" class="mori-memory"></div>
             </div>
 
-            <div class="mori-card mori-voice-config">
+            <div id="moriVoiceConfigCard" class="mori-card mori-voice-config">
               <h5>语音教练配置</h5>
-              <p>可切换本地 Mori 样本语音、浏览器语音或云端音色，跑前听一遍计划更高效。</p>
+              <p>先选择语音服务，再开始聊天。后续会按 Mori 每次回复内容动态播报。</p>
 
               <div class="mori-row two">
                 <select id="moriVoiceProvider" class="mori-field" aria-label="Voice provider">
                   <option value="sample">Mori 样本语音（本地即用）</option>
                   <option value="browser">浏览器语音（本地）</option>
                   <option value="azure">Azure 语音克隆（直连）</option>
-                  <option value="proxy">自建代理接口</option>
+                  <option value="proxy">自建代理接口（GPT-SoVITS 推荐）</option>
                 </select>
-                <input id="moriVoiceName" class="mori-field" type="text" maxlength="80" placeholder="Voice name / voice id，例如 zh-CN-XiaoxiaoNeural 或 21m00Tcm4TlvDq8ikWAM" />
+                <input id="moriVoiceName" class="mori-field" type="text" maxlength="220" placeholder="voiceName（可选）：可填 GPT-SoVITS ref_audio_path 绝对路径" />
               </div>
 
               <div id="moriAzureFields" class="mori-row two">
@@ -6549,7 +6647,12 @@
               </div>
 
               <div id="moriProxyFields" class="mori-row two is-hidden">
-                <input id="moriVoiceProxy" class="mori-field" type="url" maxlength="220" placeholder="Proxy endpoint，例如 https://morimori.xuchenqi100224.workers.dev/tts" />
+                <input id="moriVoiceProxy" class="mori-field" type="url" maxlength="220" placeholder="Proxy endpoint，例如 http://127.0.0.1:8789/tts" />
+                <div></div>
+              </div>
+
+              <div class="mori-row two">
+                <button id="moriUseGptSovits" class="mori-btn ghost" type="button">一键填入 GPT-SoVITS 本地配置</button>
                 <div></div>
               </div>
 
@@ -6558,7 +6661,7 @@
                 <button id="moriTestVoice" class="mori-btn ghost" type="button">测试语音</button>
               </div>
               <div id="moriVoiceStatus" class="mori-voice-status">当前：Mori 样本语音模式</div>
-              <small>提示：本地直接可用；要逐字朗读回复可切换代理模式并配置 voice id。</small>
+              <small>提示：中文克隆建议先启动 start-local-gptsovits.bat，再点一键填入与测试语音。</small>
             </div>
           </section>
 
@@ -6700,11 +6803,13 @@
     const moriVoiceRegion = document.getElementById('moriVoiceRegion');
     const moriVoiceKey = document.getElementById('moriVoiceKey');
     const moriVoiceProxy = document.getElementById('moriVoiceProxy');
+    const moriUseGptSovits = document.getElementById('moriUseGptSovits');
     const moriSaveVoiceConfig = document.getElementById('moriSaveVoiceConfig');
     const moriTestVoice = document.getElementById('moriTestVoice');
     const moriVoiceStatus = document.getElementById('moriVoiceStatus');
     const moriAzureFields = document.getElementById('moriAzureFields');
     const moriProxyFields = document.getElementById('moriProxyFields');
+    const moriVoiceConfigCard = document.getElementById('moriVoiceConfigCard');
 
     const MORI_KEYS = {
       chat: 'mori_chat_history_v1',
@@ -6718,8 +6823,10 @@
     const MORI_SAMPLE_AUDIO_MP3_URL = './Mori.mp3';
     const MORI_SAMPLE_AUDIO_MIME = 'audio/mp4; codecs="mp4a.40.2"';
     const MORI_SAMPLE_AUDIO_MP3_MIME = 'audio/mpeg';
-    const MORI_DEFAULT_PROXY_ENDPOINT = 'http://127.0.0.1:8788/tts';
+    const MORI_DEFAULT_PROXY_ENDPOINT = 'http://127.0.0.1:8789/tts';
     const MORI_FIXED_CLONE_VOICE_ID = '';
+    const MORI_CLONE_STRICT_MODE = true;
+    const MORI_DEFAULT_PROXY_PROMPT_TEXT = 'ni hao, wo shi Mori. jin tian wo men yi qi wan cheng di yi bu.';
     const PLAN_TASKS_KEY = 'daymori_plan_tasks_v1';
     const PLAN_TASKS_DONE_KEY = 'daymori_plan_tasks_done_v1';
     const PLAN_FOCUS_TASK_SELECTION_KEY = 'daymori_focus_task_selection_v1';
@@ -6821,6 +6928,7 @@
     let moriAudioPlayer = new Audio();
     let moriAudioUrl = '';
     let moriVoiceQueue = Promise.resolve();
+    let moriVoiceGuideTimer = null;
     let moriVoiceConfig = {
       provider: 'proxy',
       voiceName: '',
@@ -8986,7 +9094,13 @@
       renderEverydayPlans();
     }
 
-    function openMoriOverlay() {
+    function openMoriOverlay(options) {
+      const settings = options && typeof options === 'object' ? options : {};
+      const targetModule = typeof settings.targetModule === 'string' && settings.targetModule
+        ? settings.targetModule
+        : 'chat';
+      const focusVoiceConfig = Boolean(settings.focusVoiceConfig);
+
       if (focusModeActive || focusTransitionBusy) {
         return;
       }
@@ -8998,7 +9112,37 @@
       moriOverlay.setAttribute('aria-hidden', 'false');
       document.body.classList.add('splash-active');
       moriVoiceUnlocked = true;
-      setMoriModule('chat');
+      setMoriModule(targetModule);
+
+      if (focusVoiceConfig) {
+        setMoriModule('emotion');
+        renderMoriVoiceConfigForm();
+        setMoriVoiceStatus('先选择语音服务并保存，再开始对话。');
+
+        if (moriVoiceConfigCard) {
+          moriVoiceConfigCard.classList.remove('guide-glow');
+          void moriVoiceConfigCard.offsetWidth;
+          moriVoiceConfigCard.classList.add('guide-glow');
+          moriVoiceConfigCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+          if (moriVoiceGuideTimer) {
+            clearTimeout(moriVoiceGuideTimer);
+          }
+          moriVoiceGuideTimer = setTimeout(() => {
+            if (moriVoiceConfigCard) {
+              moriVoiceConfigCard.classList.remove('guide-glow');
+            }
+          }, 2200);
+        }
+
+        if (moriVoiceProvider) {
+          setTimeout(() => {
+            moriVoiceProvider.focus();
+          }, 80);
+        }
+        return;
+      }
+
       moriInput.focus();
     }
 
@@ -9026,10 +9170,22 @@
       storageSet(MORI_KEYS.voice, moriVoiceConfig);
     }
 
-    function enforceMoriFixedCloneConfig() {
-      moriVoiceConfig.provider = 'proxy';
+    function normalizeMoriVoiceConfig() {
+      const provider = String(moriVoiceConfig.provider || '').trim().toLowerCase();
+      const allowedProviders = new Set(['sample', 'browser', 'azure', 'proxy']);
+      if (!allowedProviders.has(provider)) {
+        moriVoiceConfig.provider = 'proxy';
+      } else {
+        moriVoiceConfig.provider = provider;
+      }
+
       const savedEndpoint = String(moriVoiceConfig.proxyEndpoint || '').trim();
-      moriVoiceConfig.proxyEndpoint = savedEndpoint || MORI_DEFAULT_PROXY_ENDPOINT;
+      const legacyLocalEndpoint = 'http://127.0.0.1:8788/tts';
+      if (!savedEndpoint || savedEndpoint === legacyLocalEndpoint) {
+        moriVoiceConfig.proxyEndpoint = MORI_DEFAULT_PROXY_ENDPOINT;
+      } else {
+        moriVoiceConfig.proxyEndpoint = savedEndpoint;
+      }
       if (MORI_FIXED_CLONE_VOICE_ID) {
         moriVoiceConfig.voiceName = MORI_FIXED_CLONE_VOICE_ID;
       }
@@ -9042,7 +9198,7 @@
       moriHabitState = Object.assign(moriHabitState, storageGet(MORI_KEYS.habit, {}));
       moriEmotionState = Object.assign(moriEmotionState, storageGet(MORI_KEYS.emotion, {}));
       moriVoiceConfig = Object.assign(moriVoiceConfig, storageGet(MORI_KEYS.voice, {}));
-      enforceMoriFixedCloneConfig();
+      normalizeMoriVoiceConfig();
 
       moriFocusState.focusMinutes = clampInt(moriFocusState.focusMinutes, 1, 180, 25);
       moriFocusState.breakMinutes = clampInt(moriFocusState.breakMinutes, 1, 60, 5);
@@ -9135,6 +9291,47 @@
       moriVoiceStatus.classList.toggle('error', Boolean(isError));
     }
 
+    function getMoriRefAudioPathFromRuntime() {
+      if (window.location.protocol !== 'file:') {
+        return '';
+      }
+
+      try {
+        const decodedPath = decodeURIComponent(String(window.location.pathname || ''));
+        if (!decodedPath) {
+          return '';
+        }
+
+        let normalized = decodedPath;
+        if (/^\/[A-Za-z]:\//.test(normalized)) {
+          normalized = normalized.slice(1);
+        }
+
+        const windowsPath = normalized.replace(/\//g, '\\');
+        const baseDir = windowsPath.replace(/\\[^\\]+$/, '');
+        if (!baseDir) {
+          return '';
+        }
+
+        return baseDir + '\\Mori_ref_6s.wav';
+      } catch {
+        return '';
+      }
+    }
+
+    function resolveMoriProxyVoiceName() {
+      if (MORI_FIXED_CLONE_VOICE_ID) {
+        return MORI_FIXED_CLONE_VOICE_ID;
+      }
+
+      const configured = String(moriVoiceConfig.voiceName || '').trim();
+      if (configured) {
+        return configured;
+      }
+
+      return getMoriRefAudioPathFromRuntime();
+    }
+
     function renderMoriVoiceProviderFields() {
       const provider = moriVoiceConfig.provider || 'sample';
       if (moriAzureFields) {
@@ -9166,16 +9363,40 @@
       if (moriVoiceConfig.provider === 'azure') {
         setMoriVoiceStatus('当前：Azure 语音模式');
       } else if (moriVoiceConfig.provider === 'proxy') {
-        setMoriVoiceStatus('当前：固定克隆音色通道');
+        const refAudioPath = resolveMoriProxyVoiceName();
+        if (refAudioPath && /mori_ref_6s\.wav$/i.test(refAudioPath)) {
+          setMoriVoiceStatus('当前：GPT-SoVITS 本地克隆通道（参考音色：Mori_ref_6s.wav）');
+        } else if (refAudioPath && /mori\.m4a$/i.test(refAudioPath)) {
+          setMoriVoiceStatus('当前：GPT-SoVITS 本地克隆通道（参考音色：Mori.m4a，建议改为 Mori_ref_6s.wav）');
+        } else {
+          setMoriVoiceStatus('当前：GPT-SoVITS 本地克隆通道');
+        }
+      } else if (moriVoiceConfig.provider === 'browser') {
+        setMoriVoiceStatus('当前：浏览器中文语音（动态播报）');
       } else if (moriVoiceConfig.provider === 'sample') {
-        setMoriVoiceStatus('当前：Mori 样本音色（仅回退）');
+        setMoriVoiceStatus('当前：Mori 样本音色');
       } else {
-        setMoriVoiceStatus('当前：系统语音模式（未启用）');
+        setMoriVoiceStatus('当前：语音模式异常，已自动回到默认配置');
       }
     }
 
-    function collectMoriVoiceConfigFromForm() {
+    function applyMoriGptSovitsPreset() {
       moriVoiceConfig.provider = 'proxy';
+      moriVoiceConfig.proxyEndpoint = MORI_DEFAULT_PROXY_ENDPOINT;
+      if (!String(moriVoiceConfig.voiceName || '').trim()) {
+        moriVoiceConfig.voiceName = resolveMoriProxyVoiceName();
+      }
+      renderMoriVoiceConfigForm();
+      storageSet(MORI_KEYS.voice, moriVoiceConfig);
+      setMoriVoiceStatus('已切换到 GPT-SoVITS 本地配置，建议马上点测试语音');
+    }
+
+    function collectMoriVoiceConfigFromForm() {
+      const selectedProvider = moriVoiceProvider
+        ? String(moriVoiceProvider.value || '').trim().toLowerCase()
+        : '';
+      const allowedProviders = new Set(['sample', 'browser', 'azure', 'proxy']);
+      moriVoiceConfig.provider = allowedProviders.has(selectedProvider) ? selectedProvider : 'proxy';
       moriVoiceConfig.voiceName = moriVoiceName ? moriVoiceName.value.trim() : '';
       moriVoiceConfig.region = moriVoiceRegion ? moriVoiceRegion.value.trim() : '';
       moriVoiceConfig.key = moriVoiceKey ? moriVoiceKey.value.trim() : '';
@@ -9185,8 +9406,8 @@
       if (!moriVoiceConfig.proxyEndpoint) {
         moriVoiceConfig.proxyEndpoint = MORI_DEFAULT_PROXY_ENDPOINT;
       }
-      if (MORI_FIXED_CLONE_VOICE_ID) {
-        moriVoiceConfig.voiceName = MORI_FIXED_CLONE_VOICE_ID;
+      if (moriVoiceConfig.provider === 'proxy' && !String(moriVoiceConfig.voiceName || '').trim()) {
+        moriVoiceConfig.voiceName = resolveMoriProxyVoiceName();
       }
       renderMoriVoiceProviderFields();
     }
@@ -9318,12 +9539,16 @@
         },
         body: JSON.stringify({
           text,
-          voiceName: moriVoiceConfig.voiceName || 'mori'
+          voiceName: resolveMoriProxyVoiceName(),
+          textLang: 'zh',
+          promptLang: 'zh',
+          promptText: MORI_DEFAULT_PROXY_PROMPT_TEXT
         })
       });
 
       if (!res.ok) {
-        throw new Error('代理接口返回失败');
+        const detail = (await res.text().catch(() => '')).slice(0, 160);
+        throw new Error('代理接口返回失败(' + res.status + ')' + (detail ? '：' + detail : ''));
       }
 
       const contentType = (res.headers.get('content-type') || '').toLowerCase();
@@ -9341,6 +9566,61 @@
       }
 
       return res.blob();
+    }
+
+    async function checkMoriProxyHealth() {
+      const endpoint = String(moriVoiceConfig.proxyEndpoint || '').trim();
+      if (!endpoint) {
+        return { ok: false, detail: '未配置代理地址' };
+      }
+
+      let endpointUrl;
+      try {
+        endpointUrl = new URL(endpoint);
+      } catch {
+        return { ok: false, detail: '代理地址格式错误' };
+      }
+
+      if (endpointUrl.protocol !== 'http:' && endpointUrl.protocol !== 'https:') {
+        return { ok: false, detail: '代理地址协议必须是 http/https' };
+      }
+
+      const healthUrl = new URL(endpointUrl.toString());
+      healthUrl.pathname = '/health';
+      healthUrl.search = '';
+      healthUrl.hash = '';
+
+      const controller = typeof AbortController === 'function' ? new AbortController() : null;
+      const timer = controller
+        ? setTimeout(() => {
+            controller.abort();
+          }, 2500)
+        : null;
+
+      try {
+        const res = await fetch(healthUrl.toString(), {
+          cache: 'no-store',
+          signal: controller ? controller.signal : undefined
+        });
+
+        if (!res.ok) {
+          return { ok: false, detail: 'health 接口状态码 ' + res.status };
+        }
+
+        const data = await res.json().catch(() => null);
+        if (!data || !data.ok) {
+          return { ok: false, detail: 'health 返回格式异常' };
+        }
+
+        return { ok: true, detail: 'ok' };
+      } catch (error) {
+        const message = error && error.message ? error.message : 'unknown error';
+        return { ok: false, detail: '请求失败：' + message };
+      } finally {
+        if (timer) {
+          clearTimeout(timer);
+        }
+      }
     }
 
     function canPlayMoriSampleMime(mimeType) {
@@ -9423,25 +9703,87 @@
         return;
       }
 
-      enforceMoriFixedCloneConfig();
+      normalizeMoriVoiceConfig();
       const content = text.replace(/\s+/g, ' ').trim().slice(0, 320);
+      const provider = moriVoiceConfig.provider || 'proxy';
+
+      if (provider === 'browser') {
+        try {
+          await speakByBrowser(content);
+          setMoriVoiceStatus('语音已使用浏览器中文语音播放');
+        } catch (error) {
+          const reason = error && error.message ? error.message : 'unknown error';
+          setMoriVoiceStatus('浏览器语音失败：' + reason, true);
+        }
+        return;
+      }
+
+      if (provider === 'sample') {
+        try {
+          const sampleSource = await synthesizeBySample();
+          if (sampleSource === 'mp3') {
+            setMoriVoiceStatus('语音已使用 Mori 样本音色（mp3）');
+          } else {
+            setMoriVoiceStatus('语音已使用 Mori 样本音色（m4a）');
+          }
+        } catch (error) {
+          const reason = error && error.message ? error.message : 'unknown error';
+          setMoriVoiceStatus('样本语音播放失败：' + reason, true);
+        }
+        return;
+      }
+
+      const providerLabel = provider === 'azure' ? 'Azure' : 'GPT-SoVITS';
       try {
-        const blob = await synthesizeByProxy(content);
+        const blob = provider === 'azure'
+          ? await synthesizeByAzure(content)
+          : await synthesizeByProxy(content);
         await playMoriAudioBlob(blob);
-        setMoriVoiceStatus('语音已使用固定克隆音色播放');
+        if (provider === 'azure') {
+          setMoriVoiceStatus('语音已使用 Azure 克隆音色播放');
+        } else {
+          setMoriVoiceStatus('语音已使用 GPT-SoVITS 克隆音色播放');
+        }
       } catch (error) {
         const reason = error && error.message ? error.message : 'unknown error';
+
+        if (MORI_CLONE_STRICT_MODE && (provider === 'proxy' || provider === 'azure')) {
+          setMoriVoiceStatus(providerLabel + ' 通道失败，已停止播放（严格克隆模式，不回退浏览器/样本语音）：' + reason, true);
+          return;
+        }
+
+        if (provider === 'proxy') {
+          try {
+            const sampleSource = await synthesizeBySample();
+            if (sampleSource === 'mp3') {
+              setMoriVoiceStatus('GPT-SoVITS 未连接，临时播放 Mori 样本音色（mp3）。启动 8789/9880 后将恢复动态克隆：' + reason, true);
+            } else {
+              setMoriVoiceStatus('GPT-SoVITS 未连接，临时播放 Mori 样本音色（m4a）。启动 8789/9880 后将恢复动态克隆：' + reason, true);
+            }
+            return;
+          } catch {
+            // Continue with other fallbacks if sample playback is unavailable.
+          }
+        }
+
+        try {
+          await speakByBrowser(content);
+          setMoriVoiceStatus(providerLabel + ' 通道异常，已回退浏览器中文语音：' + reason, true);
+          return;
+        } catch {
+          // Keep falling back to bundled sample clips.
+        }
 
         try {
           const sampleSource = await synthesizeBySample();
           if (sampleSource === 'mp3') {
-            setMoriVoiceStatus('固定克隆通道异常，已回退 Mori 样本音色（mp3）：' + reason, true);
+            setMoriVoiceStatus(providerLabel + ' 通道异常，已回退 Mori 样本音色（mp3）：' + reason, true);
           } else {
-            setMoriVoiceStatus('固定克隆通道异常，已回退 Mori 样本音色（m4a）：' + reason, true);
+            setMoriVoiceStatus(providerLabel + ' 通道异常，已回退 Mori 样本音色（m4a）：' + reason, true);
           }
         } catch (innerError) {
           const message = innerError && innerError.message ? innerError.message : 'unknown error';
-          setMoriVoiceStatus('固定克隆通道失败：' + reason + '；样本回退也失败：' + message, true);
+          setMoriVoiceStatus(providerLabel + ' 通道失败：' + reason + '；浏览器/样本回退都失败：' + message, true);
         }
       }
     }
@@ -9548,7 +9890,18 @@
         return '我在，' + moriProfile.nickname + '。今天的主题是什么？我先帮你拆第一步。';
       }
 
-      return '收到。我建议先做这一步：把你的目标写成一句话，然后立刻开始 10 分钟。你把主题发我，我直接给你可执行的第一步。';
+      if (trimmed.length <= 2) {
+        return '我收到了“' + trimmed + '”。为了给你可执行建议，请补充一个主题词，例如：英语作业、复习、项目推进、运动训练。';
+      }
+
+      const topic = trimmed.replace(/\s+/g, ' ').slice(0, 30);
+      const starterSteps = [
+        '先写一句今天要完成的结果，再立刻开始 10 分钟',
+        '先列 3 个最小动作，只做第 1 个并计时 8 分钟',
+        '先清空干扰 2 分钟，然后进入 1 个 25 分钟专注块'
+      ];
+      const step = starterSteps[(topic.length + moriChatHistory.length) % starterSteps.length];
+      return '收到，你刚刚提到“' + topic + '”。建议先做这一步：' + step + '。完成后回我“已完成”，我继续给你下一步。';
     }
 
     function sendMoriMessage() {
@@ -10238,7 +10591,16 @@
     }
 
     if (openMoriDialogBtn) {
-      openMoriDialogBtn.addEventListener('click', openMoriOverlay);
+      openMoriDialogBtn.addEventListener('click', () => {
+        openMoriOverlay({ targetModule: 'emotion', focusVoiceConfig: true });
+        setTimeout(() => {
+          setMoriModule('emotion');
+          renderMoriVoiceConfigForm();
+          if (moriVoiceProvider) {
+            moriVoiceProvider.focus();
+          }
+        }, 90);
+      });
     }
 
     if (moriVoiceToggle) {
@@ -10302,12 +10664,44 @@
       });
     }
 
+    if (moriUseGptSovits) {
+      moriUseGptSovits.addEventListener('click', () => {
+        applyMoriGptSovitsPreset();
+      });
+    }
+
     if (moriSaveVoiceConfig) {
-      moriSaveVoiceConfig.addEventListener('click', () => {
+      moriSaveVoiceConfig.addEventListener('click', async () => {
+        const emotionModuleActive = Boolean(document.querySelector('[data-mori-module="emotion"].active'));
         collectMoriVoiceConfigFromForm();
         storageSet(MORI_KEYS.voice, moriVoiceConfig);
         renderMoriVoiceConfigForm();
-        setMoriVoiceStatus('语音配置已保存到本机浏览器');
+
+        if (moriVoiceConfig.provider === 'proxy') {
+          const health = await checkMoriProxyHealth();
+          if (health.ok) {
+            setMoriVoiceStatus('语音配置已保存，代理已连通。请点测试语音确认 GPT-SoVITS 克隆引擎是否就绪。');
+          } else if (MORI_CLONE_STRICT_MODE) {
+            setMoriVoiceStatus('语音配置已保存，但 GPT-SoVITS 未就绪：' + health.detail + '；严格克隆模式下不会播放样本语音。', true);
+          } else {
+            setMoriVoiceStatus('语音配置已保存，但 GPT-SoVITS 未就绪：' + health.detail + '；将临时播放 Mori 样本音色。', true);
+          }
+        } else if (moriVoiceConfig.provider === 'azure') {
+          setMoriVoiceStatus('语音配置已保存。Azure 模式请点测试语音确认可用。');
+        } else if (moriVoiceConfig.provider === 'browser') {
+          setMoriVoiceStatus('语音配置已保存。当前是浏览器语音模式。');
+        } else {
+          setMoriVoiceStatus('语音配置已保存。当前是样本语音模式。');
+        }
+
+        if (emotionModuleActive) {
+          setMoriModule('chat');
+          setTimeout(() => {
+            if (moriInput) {
+              moriInput.focus();
+            }
+          }, 60);
+        }
       });
     }
 
@@ -10315,6 +10709,15 @@
       moriTestVoice.addEventListener('click', async () => {
         collectMoriVoiceConfigFromForm();
         storageSet(MORI_KEYS.voice, moriVoiceConfig);
+
+        if (moriVoiceConfig.provider === 'proxy' && MORI_CLONE_STRICT_MODE) {
+          const health = await checkMoriProxyHealth();
+          if (!health.ok) {
+            setMoriVoiceStatus('GPT-SoVITS 未就绪，请先启动本地服务：' + health.detail, true);
+            return;
+          }
+        }
+
         await speakAsMori('你好，我是 AM 伙伴。告诉我你今天的主题，我会陪你先完成第一步。');
       });
     }
