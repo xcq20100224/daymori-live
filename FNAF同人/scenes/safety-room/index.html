@@ -15091,6 +15091,16 @@
         syncBonnieLeftPipePresence();
         updateNightDebug();
       };
+      window.__daymoriDebugSetNightElapsedMs = (elapsedMs = 0) => {
+        nightStarted = true;
+        nightElapsedMs = clamp(Number(elapsedMs) || 0, 0, NIGHT_DURATION_MS);
+        lastTickAt = performance.now();
+        syncNightReadout();
+        updateNightDebug();
+        if (typeof window.__daymoriSyncCurrentMonitorRoom === "function") {
+          window.__daymoriSyncCurrentMonitorRoom();
+        }
+      };
 
       const clearBonnieAlarmTimers = () => {
         if (bonnieAlarmCycleTimer) {
@@ -20022,6 +20032,7 @@
       const pickRoomImage = (meta, options = {}) => {
         const hasFreddyPresence = Boolean(options.hasFreddyPresence);
         const hasBonniePresence = Boolean(options.hasBonniePresence);
+        const hasChicaPresence = Boolean(options.hasChicaPresence);
         const bonnieAtPipe = Boolean(options.bonnieAtPipe);
         const holderState = window.__daymoriHolderState || {};
         const holderActive = Boolean(holderState.active);
@@ -20043,12 +20054,30 @@
           return isMobileAssetMode() ? (meta.mobileImage || meta.image) : meta.image;
         }
         if (meta.roomClass === "room3") {
-          const emptyRoomImage = isMobileAssetMode()
-            ? (meta.mobileAllDepartedImage || meta.allDepartedImage || meta.mobileEmptyImage || meta.emptyImage || meta.mobileImage || meta.image)
-            : (meta.allDepartedImage || meta.emptyImage || meta.image);
-          if (emptyRoomImage) {
-            return emptyRoomImage;
+          const useMobile = isMobileAssetMode();
+          const pick = (desktopKey, mobileKey = desktopKey) => useMobile ? (meta[mobileKey] || meta[desktopKey]) : meta[desktopKey];
+          if (hasFreddyPresence && hasBonniePresence && hasChicaPresence) {
+            return pick("allPresentImage", "mobileAllPresentImage") || pick("image", "mobileImage");
           }
+          if (!hasFreddyPresence && hasBonniePresence && hasChicaPresence) {
+            return pick("freddyGoneImage", "mobileFreddyGoneImage") || pick("allPresentImage", "mobileAllPresentImage");
+          }
+          if (hasFreddyPresence && !hasBonniePresence && hasChicaPresence) {
+            return pick("bonnieGoneImage", "mobileBonnieGoneImage") || pick("bonnieDepartedImage", "mobileBonnieDepartedImage");
+          }
+          if (hasFreddyPresence && hasBonniePresence && !hasChicaPresence) {
+            return pick("chicaGoneImage", "mobileChicaGoneImage") || pick("chicaDepartedImage", "mobileChicaDepartedImage");
+          }
+          if (hasFreddyPresence && !hasBonniePresence && !hasChicaPresence) {
+            return pick("freddyOnlyImage", "mobileFreddyOnlyImage") || pick("allPresentImage", "mobileAllPresentImage");
+          }
+          if (!hasFreddyPresence && hasBonniePresence && !hasChicaPresence) {
+            return pick("bonnieOnlyImage", "mobileBonnieOnlyImage") || pick("bonnieChicaDepartedImage", "mobileBonnieChicaDepartedImage");
+          }
+          if (!hasFreddyPresence && !hasBonniePresence && hasChicaPresence) {
+            return pick("chicaOnlyImage", "mobileChicaOnlyImage") || pick("emptyImage", "mobileEmptyImage");
+          }
+          return pick("allGoneImage", "mobileAllGoneImage") || pick("emptyImage", "mobileEmptyImage") || pick("image", "mobileImage");
         }
         if (!hasFreddyPresence && !hasBonniePresence) {
           const emptyImage = isMobileAssetMode() ? (meta.mobileEmptyImage || meta.emptyImage) : meta.emptyImage;
@@ -20081,21 +20110,29 @@
           code: "CAM 03",
           name: "Room 3",
           image: "room3-monitor.png",
+          allPresentImage: "room3-monitor.png",
+          freddyGoneImage: "../../安全屋场景/f258131c835b13a70f656b16da28b36e.png",
+          bonnieGoneImage: "../../安全屋场景/7e8ac278375aa0e4adc171915878bece.png",
+          chicaGoneImage: "../../安全屋场景/cc44822ef2380d98023e5b89fa45a211.png",
+          freddyOnlyImage: "../../安全屋场景/room3-monitor-freddy-only.png",
+          bonnieOnlyImage: "../../安全屋场景/fdd12f4b932463e859449d64f11271fa.png",
+          chicaOnlyImage: "../../安全屋场景/cbc45f1af4462c43ed855f4b53de04c7.png",
+          allGoneImage: "../../安全屋场景/5e7efdef1ba49741a9f57beb33901a45.png",
           freddyImage: "room3-monitor.png",
           bonnieImage: "../../安全屋场景/ba3df549d45ef69bf5b5fcd64bab299c.png",
-          chicaDepartedImage: "../../安全屋场景/cc44822ef2380d98023e5b89fa45a211.png",
-          bonnieChicaDepartedImage: "../../安全屋场景/fdd12f4b932463e859449d64f11271fa.png",
-          allDepartedImage: "../../安全屋场景/5e7efdef1ba49741a9f57beb33901a45.png",
-          bonnieDepartedImage: "../../安全屋场景/7e8ac278375aa0e4adc171915878bece.png",
-          emptyImage: "../../安全屋场景/cbc45f1af4462c43ed855f4b53de04c7.png",
+          emptyImage: "../../安全屋场景/5e7efdef1ba49741a9f57beb33901a45.png",
           mobileImage: "room3-monitor-mobile.jpg",
+          mobileAllPresentImage: "room3-monitor-mobile.jpg",
+          mobileFreddyGoneImage: "../../安全屋场景/f258131c835b13a70f656b16da28b36e.png",
+          mobileBonnieGoneImage: "../../安全屋场景/7e8ac278375aa0e4adc171915878bece.png",
+          mobileChicaGoneImage: "../../安全屋场景/cc44822ef2380d98023e5b89fa45a211.png",
+          mobileFreddyOnlyImage: "../../安全屋场景/room3-monitor-freddy-only.png",
+          mobileBonnieOnlyImage: "../../安全屋场景/fdd12f4b932463e859449d64f11271fa.png",
+          mobileChicaOnlyImage: "../../安全屋场景/cbc45f1af4462c43ed855f4b53de04c7.png",
+          mobileAllGoneImage: "../../安全屋场景/5e7efdef1ba49741a9f57beb33901a45.png",
           mobileFreddyImage: "room3-monitor-mobile.jpg",
           mobileBonnieImage: "../../安全屋场景/ba3df549d45ef69bf5b5fcd64bab299c.png",
-          mobileChicaDepartedImage: "../../安全屋场景/cc44822ef2380d98023e5b89fa45a211.png",
-          mobileBonnieChicaDepartedImage: "../../安全屋场景/fdd12f4b932463e859449d64f11271fa.png",
-          mobileAllDepartedImage: "../../安全屋场景/5e7efdef1ba49741a9f57beb33901a45.png",
-          mobileBonnieDepartedImage: "../../安全屋场景/7e8ac278375aa0e4adc171915878bece.png",
-          mobileEmptyImage: "../../安全屋场景/cbc45f1af4462c43ed855f4b53de04c7.png",
+          mobileEmptyImage: "../../安全屋场景/5e7efdef1ba49741a9f57beb33901a45.png",
           roomClass: "room3",
         },
         room1: {
@@ -20895,6 +20932,7 @@
         const roomImage = pickRoomImage(meta, {
           hasFreddyPresence,
           hasBonniePresence,
+          hasChicaPresence,
           bonnieAtPipe: bonnieState.bonniePipeActive,
         });
         renderTerminalReadout(currentRoom, meta);
@@ -20916,9 +20954,7 @@
         cameraFeed.classList.toggle("is-room10", roomClass === "room10");
         cameraFeed.classList.toggle("has-freddy-presence", hasFreddyPresence);
         cameraFeed.classList.toggle("has-bonnie-presence", hasBonniePresence);
-        cameraFeed.classList.toggle("show-room3-freddy", roomClass === "room3" && hasFreddyPresence);
-        cameraFeed.classList.toggle("show-room3-bonnie", roomClass === "room3" && hasBonniePresence);
-        cameraFeed.classList.toggle("show-room3-chica", roomClass === "room3" && hasChicaPresence);
+        cameraFeed.classList.remove("show-room3-freddy", "show-room3-bonnie", "show-room3-chica");
         if (classroomBScene && roomImage) {
           classroomBScene.dataset.room = roomClass;
           classroomBScene.dataset.freddyPresence = hasFreddyPresence ? "true" : "false";
@@ -22148,6 +22184,7 @@
         delete window.__daymoriPlayRoom7FlashSound;
         delete window.__daymoriPlayRoom3FlashSound;
         delete window.__daymoriSetFreddyMonitorRoom;
+        delete window.__daymoriDebugSetNightElapsedMs;
         delete window.__daymoriForceCloseTabletForPower;
         delete window.__daymoriTriggerFakeMonitorSignal;
         delete window.__daymoriFakeSignalState;
