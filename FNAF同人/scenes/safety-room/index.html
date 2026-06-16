@@ -6,34 +6,9 @@
   <title>安全屋场景</title>
   <link rel="preload" as="image" href="menu-main-exact.png" media="(min-width: 1181px)" fetchpriority="high" />
   <link rel="preload" as="image" href="menu-main-exact-mobile.jpg" media="(pointer: coarse), (max-width: 1180px)" fetchpriority="high" />
+  <link rel="preload" as="image" href="3114d4bd9e4228cec767d1fa8adfd6aa.jpg" fetchpriority="high" />
   <link rel="preload" as="image" href="../../安全屋场景/53945ff0b0c330faa0eb53fa37d77d2d.png" media="(min-width: 1181px)" fetchpriority="high" />
   <link rel="preload" as="image" href="../../安全屋场景/53945ff0b0c330faa0eb53fa37d77d2d.png" media="(pointer: coarse), (max-width: 1180px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="room3-monitor.png" media="(min-width: 1181px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="room3-monitor-mobile.jpg" media="(pointer: coarse), (max-width: 1180px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="../../安全屋场景/7e8ac278375aa0e4adc171915878bece.png" media="(min-width: 1181px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="../../安全屋场景/7e8ac278375aa0e4adc171915878bece.png" media="(pointer: coarse), (max-width: 1180px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="../../安全屋场景/cbc45f1af4462c43ed855f4b53de04c7.png" media="(min-width: 1181px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="../../安全屋场景/cbc45f1af4462c43ed855f4b53de04c7.png" media="(pointer: coarse), (max-width: 1180px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="cam1-monitor.png" media="(min-width: 1181px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="cam1-monitor.png" media="(pointer: coarse), (max-width: 1180px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="cam2-monitor.png" media="(min-width: 1181px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="cam2-monitor.png" media="(pointer: coarse), (max-width: 1180px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="room16-monitor.png" media="(min-width: 1181px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="room16-monitor.png" media="(pointer: coarse), (max-width: 1180px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="room5-monitor.png" media="(min-width: 1181px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="room5-monitor.png" media="(pointer: coarse), (max-width: 1180px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="room1-monitor.png" media="(min-width: 1181px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="room1-monitor.png" media="(pointer: coarse), (max-width: 1180px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="room2-monitor.png" media="(min-width: 1181px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="room2-monitor.png" media="(pointer: coarse), (max-width: 1180px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="room9-monitor.png" media="(min-width: 1181px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="room9-monitor.png" media="(pointer: coarse), (max-width: 1180px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="room14-monitor.png" media="(min-width: 1181px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="room14-monitor.png" media="(pointer: coarse), (max-width: 1180px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="freddy-fake-signal-room12.png" media="(min-width: 1181px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="freddy-fake-signal-room12.png" media="(pointer: coarse), (max-width: 1180px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="room10-monitor.png" media="(min-width: 1181px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="room10-monitor.png" media="(pointer: coarse), (max-width: 1180px)" fetchpriority="high" />
   <style>
     :root {
       --night-deep: #03070c;
@@ -12592,13 +12567,25 @@
       };
       const desktopCritical = [
         "menu-main-exact.png",
+        "3114d4bd9e4228cec767d1fa8adfd6aa.jpg",
         "../../安全屋场景/53945ff0b0c330faa0eb53fa37d77d2d.png",
-        "room3-monitor.png",
       ];
       const mobileCritical = [
         "menu-main-exact-mobile.jpg",
+        "3114d4bd9e4228cec767d1fa8adfd6aa.jpg",
         "../../安全屋场景/53945ff0b0c330faa0eb53fa37d77d2d.png",
-        "room3-monitor-mobile.jpg",
+      ];
+      const desktopGameplayWarm = [
+        "assets/freddy-user-stage1.jpg",
+        "assets/freddy-safe-room-stage1.png",
+        "assets/freddy-jumpscare-closeup.png",
+        "freddy.png",
+      ];
+      const mobileGameplayWarm = [
+        "assets/freddy-user-stage1.jpg",
+        "assets/freddy-safe-room-stage1-mobile.jpg",
+        "assets/freddy-jumpscare-closeup-mobile.jpg",
+        "freddy.png",
       ];
       const desktopDeferred = [
         "cam1-monitor.png",
@@ -12625,10 +12612,6 @@
         "room7-monitor.png",
         "room7-freddy-monitor.png",
         "room8-monitor.png",
-        "assets/freddy-user-stage1.jpg",
-        "assets/freddy-safe-room-stage1.png",
-        "assets/freddy-jumpscare-closeup.png",
-        "freddy.png",
       ];
       const mobileDeferred = [
         "cam1-monitor.png",
@@ -12655,11 +12638,42 @@
         "room7-monitor-mobile.jpg",
         "room7-freddy-monitor-mobile.jpg",
         "room8-monitor-mobile.jpg",
-        "assets/freddy-user-stage1.jpg",
-        "assets/freddy-safe-room-stage1-mobile.jpg",
-        "assets/freddy-jumpscare-closeup-mobile.jpg",
-        "freddy.png",
       ];
+      const roomWarmGroups = {
+        "classroom-b": ["room3-monitor.png", "room3-monitor-mobile.jpg"],
+        room4: ["room4-monitor.png", "room4-monitor-mobile.jpg", "room4-freddy-monitor.png", "room4-freddy-monitor-mobile.jpg"],
+        room5: ["room5-monitor.png", "../../安全屋场景/353dcac02ae691a97ab411efc9edd27b.png", "../../安全屋场景/53f26681153c3056537be7a2cb6575a8.png", "../../安全屋场景/7a8ca066f1372c5db02d19d7484ddbbd.png"],
+        room6: ["room6-monitor.png", "room6-monitor-mobile.jpg", "room6-freddy-monitor.png", "room6-freddy-monitor-mobile.jpg"],
+        room7: ["room7-monitor.png", "room7-monitor-mobile.jpg", "room7-freddy-monitor.png", "room7-freddy-monitor-mobile.jpg", "../../安全屋场景/7e8ac278375aa0e4adc171915878bece.png"],
+        room8: ["room8-monitor.png", "room8-monitor-mobile.jpg", "../../安全屋场景/ba3df549d45ef69bf5b5fcd64bab299c.png", "../../安全屋场景/d390067e8bb6689bbb5aa98a2d87b8ed.png", "../../安全屋场景/fd20a44a8c6be5bd5abf1f23382f38d5.png"],
+        room1: ["room1-monitor.png"],
+        room2: ["room2-monitor.png", "../../安全屋场景/cbc45f1af4462c43ed855f4b53de04c7.png"],
+        room9: ["room9-monitor.png"],
+        room10: ["room10-monitor.png"],
+        room14: ["room14-monitor.png"],
+        room16: ["room16-monitor.png"],
+        cam1: ["cam1-monitor.png", "../../安全屋场景/22b3cf130aaf55eeba2561ae89e2e15a.png"],
+        cam2: ["cam2-monitor.png", "../../安全屋场景/338bce3c4209942c6a9e334e9be15356.png"],
+        cam3: ["../../安全屋场景/17954da7320043363cd2bad8ffd874b5.png", "../../安全屋场景/e5d6bef858395c91a0ba5dcec702a6c8.png", "../../安全屋场景/ed52093463bb1aacd6a00b7dd662d05e.png"],
+        room12: ["freddy-fake-signal-room12.png"],
+      };
+      const adjacentWarmGroups = {
+        "classroom-b": ["room4", "room6", "room7"],
+        room4: ["classroom-b", "room8"],
+        room5: ["cam3"],
+        room6: ["room7", "room2"],
+        room7: ["room6", "room2"],
+        room8: ["room4", "room9", "room16"],
+        room1: ["cam1", "room2"],
+        room2: ["room1", "cam2", "room7"],
+        room9: ["room14", "room16"],
+        room10: ["room14"],
+        room14: ["room9", "room10"],
+        room16: ["room9", "cam1"],
+        cam1: ["room1", "room16"],
+        cam2: ["room2"],
+        cam3: ["room5"],
+      };
       const schedule = (callback, timeout = 900) => {
         if ("requestIdleCallback" in window) {
           window.requestIdleCallback(callback, { timeout });
@@ -12694,16 +12708,45 @@
         pump();
       };
       const critical = () => isMobileAssetMode() ? mobileCritical : desktopCritical;
+      const gameplayWarm = () => isMobileAssetMode() ? mobileGameplayWarm : desktopGameplayWarm;
       const deferred = () => isMobileAssetMode() ? mobileDeferred : desktopDeferred;
-      warmBatch(critical(), { chunkSize: 3, priority: "high" });
-      const warmDeferred = () => warmBatch(deferred(), { chunkSize: 2 });
+      const warmRoomAssets = (roomKey, includeAdjacent = true) => {
+        const queue = [];
+        const appendGroup = (key) => {
+          const assets = roomWarmGroups[key] || [];
+          for (let index = 0; index < assets.length; index += 1) {
+            queue.push(assets[index]);
+          }
+        };
+        appendGroup(roomKey);
+        if (includeAdjacent) {
+          const neighbors = adjacentWarmGroups[roomKey] || [];
+          for (let index = 0; index < neighbors.length; index += 1) {
+            appendGroup(neighbors[index]);
+          }
+        }
+        warmBatch(queue, { chunkSize: 2, priority: "low" });
+      };
+      warmBatch(critical(), { chunkSize: 2, priority: "high" });
+      const warmGameplayAfterIdle = () => warmBatch(gameplayWarm(), { chunkSize: 1, priority: "low" });
       if (document.readyState === "complete") {
-        schedule(warmDeferred, 1100);
+        schedule(warmGameplayAfterIdle, 1800);
       } else {
-        window.addEventListener("load", () => schedule(warmDeferred, 1100), { once: true });
+        window.addEventListener("load", () => schedule(warmGameplayAfterIdle, 1800), { once: true });
       }
-      window.addEventListener("pointerdown", () => warmBatch(deferred(), { chunkSize: 4, priority: "high" }), { once: true, passive: true });
-      window.__daymoriWarmSafetyRoomAssets = () => warmBatch(critical().concat(deferred()), { chunkSize: 4, priority: "high" });
+      window.addEventListener("pointerdown", () => warmBatch(gameplayWarm(), { chunkSize: 2, priority: "auto" }), { once: true, passive: true });
+      window.__daymoriWarmMonitorRoomAssets = warmRoomAssets;
+      window.__daymoriWarmSafetyRoomAssets = (mode = "gameplay") => {
+        if (mode === "full") {
+          warmBatch(critical().concat(gameplayWarm(), deferred()), { chunkSize: 2, priority: "auto" });
+          return;
+        }
+        if (mode === "tablet") {
+          warmBatch(critical().concat(gameplayWarm()), { chunkSize: 2, priority: "auto" });
+          return;
+        }
+        warmBatch(critical().concat(gameplayWarm()), { chunkSize: 2, priority: "auto" });
+      };
     })();
   </script>
   <div class="main-menu-screen main-menu" id="mainMenuScreen" aria-label="主界面">
@@ -21060,6 +21103,9 @@
 
       window.__daymoriSyncCurrentMonitorRoom = () => {
         if (!tabletOpen) return;
+        if (typeof window.__daymoriWarmMonitorRoomAssets === "function") {
+          window.__daymoriWarmMonitorRoomAssets(currentRoom, true);
+        }
         syncRoom(currentRoom);
       };
 
@@ -21914,7 +21960,10 @@
         tabletScreen.setAttribute("aria-hidden", "false");
         syncMapView(currentMapView, { signalCut: false });
         if (typeof window.__daymoriWarmSafetyRoomAssets === "function") {
-          window.__daymoriWarmSafetyRoomAssets();
+          window.__daymoriWarmSafetyRoomAssets("tablet");
+        }
+        if (typeof window.__daymoriWarmMonitorRoomAssets === "function") {
+          window.__daymoriWarmMonitorRoomAssets(currentRoom, true);
         }
         playTabletFlipSound("open");
         triggerSignalCut();
