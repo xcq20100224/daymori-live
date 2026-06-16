@@ -2831,11 +2831,19 @@
       mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.98) 0%, rgba(0, 0, 0, 0.92) 56%, rgba(0, 0, 0, 0.48) 78%, rgba(0, 0, 0, 0.12) 90%, rgba(0, 0, 0, 0) 100%);
       transform-origin: 50% 100%;
       z-index: 4;
+      opacity: 0;
+      transition: opacity 120ms linear;
     }
 
     .classroom-b-freddy { left: 24%; transform: scale(0.96); }
     .classroom-b-bonnie { left: 42%; transform: scale(1); }
     .classroom-b-chica { left: 60%; transform: scale(0.98); }
+
+    .camera-feed.is-room3.show-room3-freddy .classroom-b-freddy,
+    .camera-feed.is-room3.show-room3-bonnie .classroom-b-bonnie,
+    .camera-feed.is-room3.show-room3-chica .classroom-b-chica {
+      opacity: 0.74;
+    }
 
     .camera-room-label {
       position: absolute;
@@ -20034,20 +20042,11 @@
           return isMobileAssetMode() ? (meta.mobileImage || meta.image) : meta.image;
         }
         if (meta.roomClass === "room3") {
-          const retreatState = window.__daymoriRetreatSceneState || {};
-          const room3RetreatImage = isMobileAssetMode()
-            ? (
-              (retreatState.freddy && retreatState.bonnie && retreatState.chica && (meta.mobileAllDepartedImage || meta.allDepartedImage))
-              || (retreatState.bonnie && retreatState.chica && (meta.mobileBonnieChicaDepartedImage || meta.bonnieChicaDepartedImage))
-              || (retreatState.chica && (meta.mobileChicaDepartedImage || meta.chicaDepartedImage))
-            )
-            : (
-              (retreatState.freddy && retreatState.bonnie && retreatState.chica && meta.allDepartedImage)
-              || (retreatState.bonnie && retreatState.chica && meta.bonnieChicaDepartedImage)
-              || (retreatState.chica && meta.chicaDepartedImage)
-            );
-          if (room3RetreatImage) {
-            return room3RetreatImage;
+          const emptyRoomImage = isMobileAssetMode()
+            ? (meta.mobileAllDepartedImage || meta.allDepartedImage || meta.mobileEmptyImage || meta.emptyImage || meta.mobileImage || meta.image)
+            : (meta.allDepartedImage || meta.emptyImage || meta.image);
+          if (emptyRoomImage) {
+            return emptyRoomImage;
           }
         }
         if (!hasFreddyPresence && !hasBonniePresence) {
@@ -20876,8 +20875,19 @@
         currentRoom = roomMeta[roomKey] ? roomKey : "classroom-b";
         const roomClass = meta.roomClass || currentRoom;
         const bonnieState = getBonnieMonitorState();
-        const hasFreddyPresence = currentRoom === freddyMonitorRoom && Boolean(meta.freddyImage);
-        const hasBonniePresence = currentRoom === bonnieState.bonnieRoom;
+        const nightState = window.__daymoriFreddyNightState || {};
+        const retreatState = window.__daymoriRetreatSceneState || {};
+        const hasFreddyPresence = currentRoom === "classroom-b"
+          ? !retreatState.freddy && (freddyMonitorRoom === "classroom-b" || freddyMonitorRoom === null)
+          : currentRoom === freddyMonitorRoom && Boolean(meta.freddyImage);
+        const hasBonniePresence = currentRoom === "classroom-b"
+          ? !retreatState.bonnie && !bonnieState.bonniePipeActive && (bonnieState.bonnieRoom === "classroom-b" || bonnieState.bonnieRoom === null)
+          : currentRoom === bonnieState.bonnieRoom;
+        const hasChicaPresence = currentRoom === "classroom-b"
+          && !retreatState.chica
+          && !nightState.chicaAttackTriggeredThisNight
+          && !nightState.chicaFinalStageActive
+          && !nightState.chicaFinalStageRetreating;
         const roomImage = pickRoomImage(meta, {
           hasFreddyPresence,
           hasBonniePresence,
@@ -20902,6 +20912,9 @@
         cameraFeed.classList.toggle("is-room10", roomClass === "room10");
         cameraFeed.classList.toggle("has-freddy-presence", hasFreddyPresence);
         cameraFeed.classList.toggle("has-bonnie-presence", hasBonniePresence);
+        cameraFeed.classList.toggle("show-room3-freddy", roomClass === "room3" && hasFreddyPresence);
+        cameraFeed.classList.toggle("show-room3-bonnie", roomClass === "room3" && hasBonniePresence);
+        cameraFeed.classList.toggle("show-room3-chica", roomClass === "room3" && hasChicaPresence);
         if (classroomBScene && roomImage) {
           classroomBScene.dataset.room = roomClass;
           classroomBScene.dataset.freddyPresence = hasFreddyPresence ? "true" : "false";
