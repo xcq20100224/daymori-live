@@ -6,7 +6,6 @@
   <title>安全屋场景</title>
   <link rel="preload" as="image" href="menu-main-exact.png" media="(min-width: 1181px)" fetchpriority="high" />
   <link rel="preload" as="image" href="menu-main-exact-mobile.jpg" media="(pointer: coarse), (max-width: 1180px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="3114d4bd9e4228cec767d1fa8adfd6aa.jpg" fetchpriority="high" />
   <link rel="preload" as="image" href="../../安全屋场景/53945ff0b0c330faa0eb53fa37d77d2d.png" media="(min-width: 1181px)" fetchpriority="high" />
   <link rel="preload" as="image" href="../../安全屋场景/53945ff0b0c330faa0eb53fa37d77d2d.png" media="(pointer: coarse), (max-width: 1180px)" fetchpriority="high" />
   <style>
@@ -2835,8 +2834,8 @@
       transition: opacity 120ms linear;
     }
 
-    .classroom-b-freddy { left: 24%; transform: scale(0.96); }
-    .classroom-b-bonnie { left: 42%; transform: scale(1); }
+    .classroom-b-freddy { left: 42%; transform: scale(1); }
+    .classroom-b-bonnie { left: 24%; transform: scale(0.96); }
     .classroom-b-chica { left: 60%; transform: scale(0.98); }
 
     .camera-feed.is-room3.show-room3-freddy .classroom-b-freddy,
@@ -12575,24 +12574,26 @@
       };
       const desktopCritical = [
         "menu-main-exact.png",
-        "3114d4bd9e4228cec767d1fa8adfd6aa.jpg",
         "../../安全屋场景/53945ff0b0c330faa0eb53fa37d77d2d.png",
       ];
       const mobileCritical = [
         "menu-main-exact-mobile.jpg",
-        "3114d4bd9e4228cec767d1fa8adfd6aa.jpg",
         "../../安全屋场景/53945ff0b0c330faa0eb53fa37d77d2d.png",
       ];
       const desktopGameplayWarm = [
         "assets/freddy-user-stage1.jpg",
         "assets/freddy-safe-room-stage1.png",
         "assets/freddy-jumpscare-closeup.png",
+        "fd4c15eac2477eccdcc3078907123ae9.png",
+        "../../安全屋场景/95374c8412cee8ba0292bb1c01f78b60.png",
         "freddy.png",
       ];
       const mobileGameplayWarm = [
         "assets/freddy-user-stage1.jpg",
         "assets/freddy-safe-room-stage1-mobile.jpg",
         "assets/freddy-jumpscare-closeup-mobile.jpg",
+        "fd4c15eac2477eccdcc3078907123ae9.png",
+        "../../安全屋场景/95374c8412cee8ba0292bb1c01f78b60.png",
         "freddy.png",
       ];
       const desktopDeferred = [
@@ -20877,13 +20878,16 @@
         const bonnieState = getBonnieMonitorState();
         const nightState = window.__daymoriFreddyNightState || {};
         const retreatState = window.__daymoriRetreatSceneState || {};
+        const room3UnlockMs = Math.round(Number(nightState.durationMs || (10 * 60 * 1000)) / 6);
+        const room3Unlocked = Boolean(nightState.started) && Number(nightState.elapsedMs || 0) >= room3UnlockMs;
         const hasFreddyPresence = currentRoom === "classroom-b"
-          ? !retreatState.freddy && (freddyMonitorRoom === "classroom-b" || freddyMonitorRoom === null)
+          ? room3Unlocked && !retreatState.freddy && (freddyMonitorRoom === "classroom-b" || freddyMonitorRoom === null)
           : currentRoom === freddyMonitorRoom && Boolean(meta.freddyImage);
         const hasBonniePresence = currentRoom === "classroom-b"
-          ? !retreatState.bonnie && !bonnieState.bonniePipeActive && (bonnieState.bonnieRoom === "classroom-b" || bonnieState.bonnieRoom === null)
+          ? room3Unlocked && !retreatState.bonnie && !bonnieState.bonniePipeActive && (bonnieState.bonnieRoom === "classroom-b" || bonnieState.bonnieRoom === null)
           : currentRoom === bonnieState.bonnieRoom;
         const hasChicaPresence = currentRoom === "classroom-b"
+          && room3Unlocked
           && !retreatState.chica
           && !nightState.chicaAttackTriggeredThisNight
           && !nightState.chicaFinalStageActive
