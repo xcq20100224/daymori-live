@@ -13385,7 +13385,7 @@
       const NIGHT1_BONNIE_UI = 5;
       const NIGHT1_CHICA_UI = 4;
       const NIGHT1_HOLDER_UI = 3;
-      const NIGHT1_UNLOCK_MS = Math.round(NIGHT_DURATION_MS / NIGHT_TOTAL_HOURS);
+      const NIGHT1_UNLOCK_MS = 0;
       const NIGHT1_FREDDY_UNLOCK_MS = NIGHT1_UNLOCK_MS + 12000;
       const NIGHT1_BONNIE_UNLOCK_MS = NIGHT1_UNLOCK_MS + 22000;
       const NIGHT1_CHICA_UNLOCK_MS = NIGHT1_UNLOCK_MS + 52000;
@@ -21000,7 +21000,7 @@
         const roomClass = meta.roomClass || currentRoom;
         const bonnieState = getBonnieMonitorState();
         const nightState = getLiveMonitorState();
-        const room3UnlockMs = Math.round(Number(nightState.durationMs || (10 * 60 * 1000)) / 6);
+        const room3UnlockMs = 0;
         const room3Unlocked = Boolean(nightState.started) && Number(nightState.elapsedMs || 0) >= room3UnlockMs;
         const hasFreddyPresence = currentRoom === "classroom-b"
           ? room3Unlocked && (freddyMonitorRoom === "classroom-b" || freddyMonitorRoom === null)
