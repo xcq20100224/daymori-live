@@ -20953,18 +20953,16 @@
         const roomClass = meta.roomClass || currentRoom;
         const bonnieState = getBonnieMonitorState();
         const nightState = window.__daymoriFreddyNightState || {};
-        const retreatState = window.__daymoriRetreatSceneState || {};
         const room3UnlockMs = Math.round(Number(nightState.durationMs || (10 * 60 * 1000)) / 6);
         const room3Unlocked = Boolean(nightState.started) && Number(nightState.elapsedMs || 0) >= room3UnlockMs;
         const hasFreddyPresence = currentRoom === "classroom-b"
-          ? room3Unlocked && !retreatState.freddy && (freddyMonitorRoom === "classroom-b" || freddyMonitorRoom === null)
+          ? room3Unlocked && (freddyMonitorRoom === "classroom-b" || freddyMonitorRoom === null)
           : currentRoom === freddyMonitorRoom && Boolean(meta.freddyImage);
         const hasBonniePresence = currentRoom === "classroom-b"
-          ? room3Unlocked && !retreatState.bonnie && !bonnieState.bonniePipeActive && (bonnieState.bonnieRoom === "classroom-b" || bonnieState.bonnieRoom === null)
+          ? room3Unlocked && !bonnieState.bonniePipeActive && (bonnieState.bonnieRoom === "classroom-b" || bonnieState.bonnieRoom === null)
           : currentRoom === bonnieState.bonnieRoom;
         const hasChicaPresence = currentRoom === "classroom-b"
           && room3Unlocked
-          && !retreatState.chica
           && !nightState.chicaAttackTriggeredThisNight
           && !nightState.chicaFinalStageActive
           && !nightState.chicaFinalStageRetreating;
