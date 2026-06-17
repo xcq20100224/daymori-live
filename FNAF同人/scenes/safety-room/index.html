@@ -13386,18 +13386,14 @@
       const NIGHT1_CHICA_UI = 4;
       const NIGHT1_HOLDER_UI = 3;
       const NIGHT1_UNLOCK_MS = Math.round(NIGHT_DURATION_MS / NIGHT_TOTAL_HOURS);
-      const NIGHT1_FREDDY_FIRST_ATTACK_MIN_MS = NIGHT1_UNLOCK_MS + 12000;
-      const NIGHT1_FREDDY_FIRST_ATTACK_MAX_MS = NIGHT1_UNLOCK_MS + 76000;
-      const NIGHT1_BONNIE_FIRST_ATTACK_MIN_MS = NIGHT1_UNLOCK_MS + 22000;
-      const NIGHT1_BONNIE_FIRST_ATTACK_MAX_MS = NIGHT1_UNLOCK_MS + 92000;
-      const NIGHT1_CHICA_FIRST_ATTACK_MIN_MS = NIGHT1_UNLOCK_MS + 52000;
-      const NIGHT1_CHICA_FIRST_ATTACK_MAX_MS = NIGHT1_UNLOCK_MS + 124000;
-      const NIGHT1_HOLDER_UNLOCK_MIN_MS = NIGHT1_UNLOCK_MS + 8000;
-      const NIGHT1_HOLDER_UNLOCK_MAX_MS = NIGHT1_UNLOCK_MS + 26000;
-      const getNightUiSpeedMultiplier = (uiLevel) => Math.min(1.98, Math.max(0.82, 2.08 - ((Math.min(NIGHT_UI_MAX, Math.max(1, uiLevel)) / NIGHT_UI_MAX) * 1.02)));
-      const FREDDY_UI_SPEED_MULTIPLIER = getNightUiSpeedMultiplier(NIGHT1_FREDDY_UI);
-      const BONNIE_UI_SPEED_MULTIPLIER = getNightUiSpeedMultiplier(NIGHT1_BONNIE_UI);
-      const HOLDER_UI_SPEED_MULTIPLIER = getNightUiSpeedMultiplier(NIGHT1_HOLDER_UI);
+      const NIGHT1_FREDDY_UNLOCK_MS = NIGHT1_UNLOCK_MS + 12000;
+      const NIGHT1_BONNIE_UNLOCK_MS = NIGHT1_UNLOCK_MS + 22000;
+      const NIGHT1_CHICA_UNLOCK_MS = NIGHT1_UNLOCK_MS + 52000;
+      const NIGHT1_HOLDER_UNLOCK_MS = NIGHT1_UNLOCK_MS + 26000;
+      const FREDDY_AI_CHECK_WINDOW_MS = 5200;
+      const BONNIE_AI_CHECK_WINDOW_MS = 4400;
+      const CHICA_AI_CHECK_WINDOW_MS = 5200;
+      const HOLDER_AI_CHECK_WINDOW_MS = 5800;
       const FREDDY_ATTACKS_ENABLED = true;
       const STAGE1_DURATION_MIN = 6800;
       const STAGE1_DURATION_MAX = 8800;
@@ -13619,6 +13615,12 @@
       let freddyRetreatedThisNight = false;
       let bonnieRetreatedThisNight = false;
       let chicaRetreatedThisNight = false;
+      const freddyAttackGate = { elapsedMs: 0, checkWindowMs: FREDDY_AI_CHECK_WINDOW_MS };
+      const freddyStepGate = { elapsedMs: 0, checkWindowMs: FREDDY_AI_CHECK_WINDOW_MS };
+      const bonnieAttackGate = { elapsedMs: 0, checkWindowMs: BONNIE_AI_CHECK_WINDOW_MS };
+      const bonnieStepGate = { elapsedMs: 0, checkWindowMs: BONNIE_AI_CHECK_WINDOW_MS };
+      const chicaAttackGate = { elapsedMs: 0, checkWindowMs: CHICA_AI_CHECK_WINDOW_MS };
+      const holderStageGate = { elapsedMs: 0, checkWindowMs: HOLDER_AI_CHECK_WINDOW_MS };
 
       const syncHolderState = () => {
         const deadlineRemainingMs = holderStage === "cam3-ready"
@@ -13647,6 +13649,23 @@
       const randomBetween = (min, max) => Math.floor(min + Math.random() * (max - min + 1));
       const randomFloat = (min, max) => min + Math.random() * (max - min);
       const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+      const resetNightUiGate = (gate) => {
+        gate.elapsedMs = 0;
+      };
+      const rollNightUiSuccess = (uiLevel) => {
+        return randomBetween(1, NIGHT_UI_MAX) <= clamp(uiLevel, 0, NIGHT_UI_MAX);
+      };
+      const consumeNightUiSuccesses = (gate, deltaMs, uiLevel, rate = 1) => {
+        gate.elapsedMs += Math.max(0, deltaMs) * Math.max(0, rate);
+        let successCount = 0;
+        while (gate.elapsedMs >= gate.checkWindowMs) {
+          gate.elapsedMs -= gate.checkWindowMs;
+          if (rollNightUiSuccess(uiLevel)) {
+            successCount += 1;
+          }
+        }
+        return successCount;
+      };
       const refreshHolderMonitor = () => {
         if (typeof window.__daymoriSyncCurrentMonitorRoom === "function") {
           window.__daymoriSyncCurrentMonitorRoom();
@@ -15821,7 +15840,7 @@
         if (!BONNIE_ATTACK_ENABLED) return [];
 
         bonnieAttackCount = 1;
-        return [randomBetween(NIGHT1_BONNIE_FIRST_ATTACK_MIN_MS, NIGHT1_BONNIE_FIRST_ATTACK_MAX_MS)];
+        return [NIGHT1_BONNIE_UNLOCK_MS];
       };
 
       const resetBonnieState = () => {
@@ -15998,7 +16017,8 @@
         const previousRoom = bonnieCurrentRoom;
         bonnieRouteStepIndex = nextIndex;
         bonnieRouteStepMs = 0;
-        bonnieRouteStepDurationMs = getScaledStepDurationMs(step, BONNIE_UI_SPEED_MULTIPLIER);
+        bonnieRouteStepDurationMs = getScaledStepDurationMs(step, 1);
+        resetNightUiGate(bonnieStepGate);
         bonnieCurrentRoom = step.room;
         bonnieActive = true;
         if (allowPassiveGameplayAudio()) {
@@ -16035,6 +16055,7 @@
         bonnieRoutePlan = BONNIE_ROUTE_ENTRY_STEPS.slice();
         bonnieCurrentRoom = null;
         bonnieActive = true;
+        resetNightUiGate(bonnieStepGate);
         enterBonnieRouteStep(0);
       };
 
@@ -16095,9 +16116,12 @@
             return;
           }
           if (nightElapsedMs >= bonnieAttackTimeline[bonnieNextAttackIndex]) {
-            bonnieNextAttackIndex += 1;
-            bonnieAttackScheduledMs = bonnieAttackTimeline[bonnieNextAttackIndex] || (NIGHT_DURATION_MS + 1000);
-            beginBonnieRoute();
+            const successCount = consumeNightUiSuccesses(bonnieAttackGate, deltaMs, NIGHT1_BONNIE_UI);
+            if (successCount > 0) {
+              bonnieNextAttackIndex += 1;
+              bonnieAttackScheduledMs = bonnieAttackTimeline[bonnieNextAttackIndex] || (NIGHT_DURATION_MS + 1000);
+              beginBonnieRoute();
+            }
           }
           return;
         }
@@ -16107,7 +16131,8 @@
         const isObserved = isObservedRoomMatch(bonnieCurrentRoom, observedRoom);
         const rate = isObserved ? BONNIE_CAMERA_WATCH_SLOWDOWN : 1;
         bonnieRouteStepMs += deltaMs * rate;
-        if (bonnieRouteStepMs >= bonnieRouteStepDurationMs) {
+        if (bonnieRouteStepMs < bonnieRouteStepDurationMs) return;
+        if (consumeNightUiSuccesses(bonnieStepGate, deltaMs, NIGHT1_BONNIE_UI, rate) > 0) {
           enterBonnieRouteStep(bonnieRouteStepIndex + 1);
         }
       };
@@ -16124,7 +16149,9 @@
 
       const advanceChicaFinalStage = (deltaMs) => {
         if (!chicaAttackTriggeredThisNight && !chicaFinalStageActive && !chicaFinalStageRetreating && nightElapsedMs >= chicaAttackScheduledMs) {
-          enterChicaFinalStage();
+          if (consumeNightUiSuccesses(chicaAttackGate, deltaMs, NIGHT1_CHICA_UI) > 0) {
+            enterChicaFinalStage();
+          }
           return;
         }
         if (!chicaFinalStageActive || chicaFinalStageRetreating || nightCleared || gameOverActive || jumpscareActive) return;
@@ -16410,6 +16437,7 @@
         holderFlashCount = 0;
         holderUnlockedThisNight = false;
         holderRetreatedThisNight = false;
+        resetNightUiGate(holderStageGate);
         syncHolderState();
         refreshHolderMonitor();
       };
@@ -16418,6 +16446,7 @@
         if (holderRetreatedThisNight || holderStage === nextStage) return;
         holderStage = nextStage;
         holderStageElapsedMs = 0;
+        resetNightUiGate(holderStageGate);
         if (nextStage !== "cam3-ready") {
           holderFlashCount = 0;
         }
@@ -16504,15 +16533,15 @@
         }
         holderStageElapsedMs += deltaMs;
 
-        if (holderStage === "room5-stage1" && holderStageElapsedMs >= Math.round(HOLDER_ROOM5_STAGE1_MS * HOLDER_UI_SPEED_MULTIPLIER)) {
+        if (holderStage === "room5-stage1" && holderStageElapsedMs >= HOLDER_ROOM5_STAGE1_MS && consumeNightUiSuccesses(holderStageGate, deltaMs, NIGHT1_HOLDER_UI) > 0) {
           setHolderStage("room5-stage2");
           return;
         }
-        if (holderStage === "room5-stage2" && holderStageElapsedMs >= Math.round(HOLDER_ROOM5_STAGE2_MS * HOLDER_UI_SPEED_MULTIPLIER)) {
+        if (holderStage === "room5-stage2" && holderStageElapsedMs >= HOLDER_ROOM5_STAGE2_MS && consumeNightUiSuccesses(holderStageGate, deltaMs, NIGHT1_HOLDER_UI) > 0) {
           setHolderStage("room5-stage3");
           return;
         }
-        if (holderStage === "room5-stage3" && holderStageElapsedMs >= Math.round(HOLDER_ROOM5_STAGE3_MS * HOLDER_UI_SPEED_MULTIPLIER)) {
+        if (holderStage === "room5-stage3" && holderStageElapsedMs >= HOLDER_ROOM5_STAGE3_MS && consumeNightUiSuccesses(holderStageGate, deltaMs, NIGHT1_HOLDER_UI) > 0) {
           setHolderStage("cam3-ready");
           return;
         }
@@ -16546,7 +16575,7 @@
         if (!FREDDY_ATTACKS_ENABLED) return [];
 
         nightAttackCount = 1;
-        return [randomBetween(NIGHT1_FREDDY_FIRST_ATTACK_MIN_MS, NIGHT1_FREDDY_FIRST_ATTACK_MAX_MS)];
+        return [NIGHT1_FREDDY_UNLOCK_MS];
       };
 
       const chooseFreddyRoute = () => {
@@ -16575,9 +16604,10 @@
         activeFreddyRouteStepIndex = stepIndex;
         activeFreddyRouteStep = {
           ...step,
-          durationMs: getScaledStepDurationMs(step, FREDDY_UI_SPEED_MULTIPLIER),
+          durationMs: getScaledStepDurationMs(step, 1),
         };
         activeFreddyRouteStepMs = 0;
+        resetNightUiGate(freddyStepGate);
         const routeProgress = activeFreddyRoute.steps.length > 1 ? stepIndex / (activeFreddyRoute.steps.length - 1) : 1;
         const threatLevel = step.room ? clamp(0.34 + routeProgress * 0.5, 0.34, 0.9) : 0.88;
         const soundProfile = activeFreddyRoute.soundProfile || "normal";
@@ -16596,6 +16626,7 @@
         if (activeFreddyRoute || currentDoorStage !== 0 || doorStageClosing || nightCleared) return;
         clearStageTimers();
         resetFlashlightProgress();
+        resetNightUiGate(freddyStepGate);
         activeFreddyRoute = chooseFreddyRoute();
         if (!activeFreddyRoute) return;
         attackTriggeredCount += 1;
@@ -16622,7 +16653,8 @@
         const rate = isFlashed ? FREDDY_CAMERA_FLASH_SLOWDOWN : (isObserved ? FREDDY_CAMERA_WATCH_SLOWDOWN : 1);
         activeFreddyRouteStepMs += deltaMs * rate;
 
-        if (activeFreddyRouteStepMs >= activeFreddyRouteStep.durationMs) {
+        if (activeFreddyRouteStepMs < activeFreddyRouteStep.durationMs) return;
+        if (consumeNightUiSuccesses(freddyStepGate, deltaMs, NIGHT1_FREDDY_UI, rate) > 0) {
           enterFreddyRouteStep(activeFreddyRouteStepIndex + 1);
         }
       };
@@ -16657,10 +16689,12 @@
         triggerFreddyRoute();
       };
 
-      const checkScheduledAttack = () => {
+      const checkScheduledAttack = (deltaMs) => {
         if (nightCleared || currentDoorStage !== 0 || activeFreddyRoute) return;
         if (nextAttackIndex >= attackTimeline.length) return;
         if (nightElapsedMs < attackTimeline[nextAttackIndex]) return;
+
+        if (consumeNightUiSuccesses(freddyAttackGate, deltaMs, NIGHT1_FREDDY_UI) <= 0) return;
 
         nextAttackIndex += 1;
         triggerFreddyAttack();
@@ -16686,13 +16720,18 @@
         chicaAttackTriggeredThisNight = false;
         syncRetreatSceneState();
         resetHolderState();
-        chicaAttackScheduledMs = randomBetween(NIGHT1_CHICA_FIRST_ATTACK_MIN_MS, NIGHT1_CHICA_FIRST_ATTACK_MAX_MS);
-        holderUnlockScheduledMs = randomBetween(NIGHT1_HOLDER_UNLOCK_MIN_MS, NIGHT1_HOLDER_UNLOCK_MAX_MS);
+        chicaAttackScheduledMs = NIGHT1_CHICA_UNLOCK_MS;
+        holderUnlockScheduledMs = NIGHT1_HOLDER_UNLOCK_MS;
         currentRoom = "classroom-b";
         clearFreddyFakeRetreat();
         freddyAmbushReturn = false;
         resetBonnieState();
         resetChicaFinalStage();
+        resetNightUiGate(freddyAttackGate);
+        resetNightUiGate(freddyStepGate);
+        resetNightUiGate(bonnieAttackGate);
+        resetNightUiGate(bonnieStepGate);
+        resetNightUiGate(chicaAttackGate);
         clearFreddyRoute({ returnToRoom3: true });
         setDoorStage(0);
         resetFlashlightProgress();
@@ -16905,7 +16944,7 @@
         advanceBonnieLeftPipeStage(delta);
         advanceChicaFinalStage(delta);
         advanceHolderStage(delta);
-        checkScheduledAttack();
+        checkScheduledAttack(delta);
         updateNightDebug();
       };
 
