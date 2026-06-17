@@ -13843,6 +13843,19 @@
         };
       };
 
+      window.__daymoriGetLiveMonitorState = () => ({
+        started: nightStarted,
+        elapsedMs: Math.round(nightElapsedMs),
+        durationMs: NIGHT_DURATION_MS,
+        freddyMonitorRoom: currentFreddyMonitorRoom,
+        bonnieRoom: bonnieCurrentRoom,
+        bonnieAtLeftPipe,
+        bonniePipeRetreating,
+        chicaAttackTriggeredThisNight,
+        chicaFinalStageActive,
+        chicaFinalStageRetreating,
+      });
+
       const setFreddyCameraRoom = (roomKey, options = {}) => {
         currentFreddyMonitorRoom = roomKey || null;
         if (typeof window.__daymoriSetFreddyMonitorRoom === "function") {
@@ -15115,6 +15128,33 @@
         nightElapsedMs = clamp(Number(elapsedMs) || 0, 0, NIGHT_DURATION_MS);
         lastTickAt = performance.now();
         syncNightReadout();
+        updateNightDebug();
+        if (typeof window.__daymoriSyncCurrentMonitorRoom === "function") {
+          window.__daymoriSyncCurrentMonitorRoom();
+        }
+      };
+      window.__daymoriDebugSetLiveMonitorState = (state = {}) => {
+        if (Object.prototype.hasOwnProperty.call(state, "freddyMonitorRoom")) {
+          currentFreddyMonitorRoom = state.freddyMonitorRoom || null;
+        }
+        if (Object.prototype.hasOwnProperty.call(state, "bonnieRoom")) {
+          bonnieCurrentRoom = state.bonnieRoom || null;
+        }
+        if (Object.prototype.hasOwnProperty.call(state, "bonnieAtLeftPipe")) {
+          bonnieAtLeftPipe = Boolean(state.bonnieAtLeftPipe);
+        }
+        if (Object.prototype.hasOwnProperty.call(state, "bonniePipeRetreating")) {
+          bonniePipeRetreating = Boolean(state.bonniePipeRetreating);
+        }
+        if (Object.prototype.hasOwnProperty.call(state, "chicaAttackTriggeredThisNight")) {
+          chicaAttackTriggeredThisNight = Boolean(state.chicaAttackTriggeredThisNight);
+        }
+        if (Object.prototype.hasOwnProperty.call(state, "chicaFinalStageActive")) {
+          chicaFinalStageActive = Boolean(state.chicaFinalStageActive);
+        }
+        if (Object.prototype.hasOwnProperty.call(state, "chicaFinalStageRetreating")) {
+          chicaFinalStageRetreating = Boolean(state.chicaFinalStageRetreating);
+        }
         updateNightDebug();
         if (typeof window.__daymoriSyncCurrentMonitorRoom === "function") {
           window.__daymoriSyncCurrentMonitorRoom();
@@ -17119,6 +17159,7 @@
         delete window.__daymoriTriggerBonnieAlarm;
         delete window.__daymoriHasPower;
         delete window.__daymoriDrainPower;
+        delete window.__daymoriGetLiveMonitorState;
         delete window.__daymoriMonitorRoomState;
         delete window.__daymoriSyncCurrentMonitorRoom;
         delete window.__daymoriTriggerBonnieMonitorTransition;
@@ -20061,8 +20102,14 @@
         }
         return window.innerWidth <= 1180;
       };
+      const getLiveMonitorState = () => {
+        if (typeof window.__daymoriGetLiveMonitorState === "function") {
+          return window.__daymoriGetLiveMonitorState() || {};
+        }
+        return window.__daymoriFreddyNightState || {};
+      };
       const getBonnieMonitorState = () => {
-        const nightState = window.__daymoriFreddyNightState || {};
+        const nightState = getLiveMonitorState();
         const bonniePipeActive = body.classList.contains("bonnie-left-pipe-active") || Boolean(nightState.bonnieAtLeftPipe);
         const bonnieRoom = bonniePipeActive ? null : (nightState.bonnieRoom || null);
         return { bonnieRoom, bonniePipeActive };
@@ -20952,7 +20999,7 @@
         currentRoom = roomMeta[roomKey] ? roomKey : "classroom-b";
         const roomClass = meta.roomClass || currentRoom;
         const bonnieState = getBonnieMonitorState();
-        const nightState = window.__daymoriFreddyNightState || {};
+        const nightState = getLiveMonitorState();
         const room3UnlockMs = Math.round(Number(nightState.durationMs || (10 * 60 * 1000)) / 6);
         const room3Unlocked = Boolean(nightState.started) && Number(nightState.elapsedMs || 0) >= room3UnlockMs;
         const hasFreddyPresence = currentRoom === "classroom-b"
@@ -20991,11 +21038,14 @@
         cameraFeed.classList.toggle("is-room10", roomClass === "room10");
         cameraFeed.classList.toggle("has-freddy-presence", hasFreddyPresence);
         cameraFeed.classList.toggle("has-bonnie-presence", hasBonniePresence);
-        cameraFeed.classList.remove("show-room3-freddy", "show-room3-bonnie", "show-room3-chica");
+        cameraFeed.classList.toggle("show-room3-freddy", roomClass === "room3" && hasFreddyPresence);
+        cameraFeed.classList.toggle("show-room3-bonnie", roomClass === "room3" && hasBonniePresence);
+        cameraFeed.classList.toggle("show-room3-chica", roomClass === "room3" && hasChicaPresence);
         if (classroomBScene && roomImage) {
           classroomBScene.dataset.room = roomClass;
           classroomBScene.dataset.freddyPresence = hasFreddyPresence ? "true" : "false";
           classroomBScene.dataset.bonniePresence = hasBonniePresence ? "true" : "false";
+          classroomBScene.dataset.chicaPresence = hasChicaPresence ? "true" : "false";
           classroomBScene.style.setProperty("--monitor-room-image", `url("${roomImage}")`);
         }
         mapButtons.forEach((btn) => {
@@ -22222,6 +22272,7 @@
         delete window.__daymoriPlayRoom3FlashSound;
         delete window.__daymoriSetFreddyMonitorRoom;
         delete window.__daymoriDebugSetNightElapsedMs;
+        delete window.__daymoriDebugSetLiveMonitorState;
         delete window.__daymoriForceCloseTabletForPower;
         delete window.__daymoriTriggerFakeMonitorSignal;
         delete window.__daymoriFakeSignalState;
