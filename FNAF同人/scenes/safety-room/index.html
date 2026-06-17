@@ -15583,7 +15583,7 @@
         if (chicaFinalStageActive || nightCleared || jumpscareActive || gameOverActive) return;
         chicaAttackTriggeredThisNight = true;
         chicaMonitorRoom = null;
-        clearFreddyRoute();
+        clearFreddyRoute({ returnToRoom3: true });
         clearStageTimers();
         clearFlashlightTimers();
         clearMonitorFlash();
@@ -16197,8 +16197,8 @@
 
       const advanceChicaFinalStage = (deltaMs) => {
         if (!chicaAttackTriggeredThisNight && !chicaFinalStageActive && !chicaFinalStageRetreating && nightElapsedMs >= chicaAttackScheduledMs) {
-          if (chicaMonitorRoom !== "room6") {
-            chicaMonitorRoom = "room6";
+          if (chicaMonitorRoom !== null) {
+            chicaMonitorRoom = null;
             if (typeof window.__daymoriSyncCurrentMonitorRoom === "function") {
               window.__daymoriSyncCurrentMonitorRoom();
             }
@@ -21025,9 +21025,7 @@
           : currentRoom === bonnieState.bonnieRoom;
         const hasChicaPresence = currentRoom === "classroom-b"
           && room3Unlocked
-          && (nightState.chicaMonitorRoom || "classroom-b") === "classroom-b"
-          && !nightState.chicaFinalStageActive
-          && !nightState.chicaFinalStageRetreating;
+          && nightState.chicaMonitorRoom === "classroom-b";
         const roomImage = pickRoomImage(meta, {
           hasFreddyPresence,
           hasBonniePresence,
