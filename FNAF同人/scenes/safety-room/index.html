@@ -13606,6 +13606,7 @@
       let chicaFinalStageRetreatTimer = null;
       let chicaAttackScheduledMs = NIGHT_DURATION_MS + 1000;
       let chicaAttackTriggeredThisNight = false;
+      let chicaMonitorRoom = "classroom-b";
       let holderStage = "room5-stage1";
       let holderStageElapsedMs = 0;
       let holderFlashCount = 0;
@@ -13811,6 +13812,7 @@
           chicaFinalStageMaskRequiredMs: CHICA_FINAL_STAGE_MASK_HOLD_MS,
           chicaAttackScheduledMs: Math.round(chicaAttackScheduledMs),
           chicaAttackTriggeredThisNight,
+          chicaMonitorRoom,
           freddyRetreatedThisNight,
           bonnieRetreatedThisNight,
           chicaRetreatedThisNight,
@@ -13852,6 +13854,7 @@
         bonnieAtLeftPipe,
         bonniePipeRetreating,
         chicaAttackTriggeredThisNight,
+        chicaMonitorRoom,
         chicaFinalStageActive,
         chicaFinalStageRetreating,
       });
@@ -15149,6 +15152,9 @@
         if (Object.prototype.hasOwnProperty.call(state, "chicaAttackTriggeredThisNight")) {
           chicaAttackTriggeredThisNight = Boolean(state.chicaAttackTriggeredThisNight);
         }
+        if (Object.prototype.hasOwnProperty.call(state, "chicaMonitorRoom")) {
+          chicaMonitorRoom = state.chicaMonitorRoom || null;
+        }
         if (Object.prototype.hasOwnProperty.call(state, "chicaFinalStageActive")) {
           chicaFinalStageActive = Boolean(state.chicaFinalStageActive);
         }
@@ -15188,6 +15194,7 @@
       const resetChicaFinalStage = () => {
         clearChicaFinalStageDeadlineTimer();
         clearChicaFinalStageRetreatTimer();
+        chicaMonitorRoom = "classroom-b";
         chicaFinalStageActive = false;
         chicaFinalStageRetreating = false;
         chicaFinalStageMaskHoldMs = 0;
@@ -15575,6 +15582,7 @@
       const enterChicaFinalStage = () => {
         if (chicaFinalStageActive || nightCleared || jumpscareActive || gameOverActive) return;
         chicaAttackTriggeredThisNight = true;
+        chicaMonitorRoom = null;
         clearFreddyRoute();
         clearStageTimers();
         clearFlashlightTimers();
@@ -16189,6 +16197,13 @@
 
       const advanceChicaFinalStage = (deltaMs) => {
         if (!chicaAttackTriggeredThisNight && !chicaFinalStageActive && !chicaFinalStageRetreating && nightElapsedMs >= chicaAttackScheduledMs) {
+          if (chicaMonitorRoom !== "room6") {
+            chicaMonitorRoom = "room6";
+            if (typeof window.__daymoriSyncCurrentMonitorRoom === "function") {
+              window.__daymoriSyncCurrentMonitorRoom();
+            }
+            updateNightDebug();
+          }
           if (consumeNightUiSuccesses(chicaAttackGate, deltaMs, NIGHT1_CHICA_UI) > 0) {
             enterChicaFinalStage();
           }
@@ -21003,14 +21018,14 @@
         const room3UnlockMs = 0;
         const room3Unlocked = Boolean(nightState.started) && Number(nightState.elapsedMs || 0) >= room3UnlockMs;
         const hasFreddyPresence = currentRoom === "classroom-b"
-          ? room3Unlocked && (freddyMonitorRoom === "classroom-b" || freddyMonitorRoom === null)
+          ? room3Unlocked && freddyMonitorRoom === "classroom-b"
           : currentRoom === freddyMonitorRoom && Boolean(meta.freddyImage);
         const hasBonniePresence = currentRoom === "classroom-b"
-          ? room3Unlocked && !bonnieState.bonniePipeActive && (bonnieState.bonnieRoom === "classroom-b" || bonnieState.bonnieRoom === null)
+          ? room3Unlocked && !bonnieState.bonniePipeActive && bonnieState.bonnieRoom === "classroom-b"
           : currentRoom === bonnieState.bonnieRoom;
         const hasChicaPresence = currentRoom === "classroom-b"
           && room3Unlocked
-          && !nightState.chicaAttackTriggeredThisNight
+          && (nightState.chicaMonitorRoom || "classroom-b") === "classroom-b"
           && !nightState.chicaFinalStageActive
           && !nightState.chicaFinalStageRetreating;
         const roomImage = pickRoomImage(meta, {
