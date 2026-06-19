@@ -13405,6 +13405,7 @@
       const NIGHT1_BONNIE_UI = 5;
       const NIGHT1_CHICA_UI = 4;
       const NIGHT1_HOLDER_UI = 3;
+      const NIGHT1_SOLO_FREDDY_ONLY = true;
       const NIGHT1_UNLOCK_MS = 0;
       const NIGHT1_FREDDY_UNLOCK_MS = NIGHT1_UNLOCK_MS + 12000;
       const NIGHT1_BONNIE_UNLOCK_MS = NIGHT1_UNLOCK_MS + 22000;
@@ -16109,6 +16110,7 @@
       };
 
       const beginBonnieRoute = () => {
+        if (NIGHT1_SOLO_FREDDY_ONLY) return;
         if (!BONNIE_ATTACK_ENABLED || nightCleared || gameOverActive || jumpscareActive) return;
         if (bonnieAttackTriggeredCount >= bonnieAttackCount) return;
         resetBonnieLeftPipeStage();
@@ -16178,6 +16180,7 @@
       };
 
       const advanceBonnieRoute = (deltaMs) => {
+        if (NIGHT1_SOLO_FREDDY_ONLY) return;
         if (!BONNIE_ATTACK_ENABLED || nightCleared || gameOverActive || jumpscareActive) return;
         if (!bonnieAttackStarted) {
           if (bonnieNextAttackIndex >= bonnieAttackTimeline.length) {
@@ -16207,6 +16210,7 @@
       };
 
       const advanceBonnieLeftPipeStage = (deltaMs) => {
+        if (NIGHT1_SOLO_FREDDY_ONLY) return;
         if (!bonnieAtLeftPipe || bonniePipeRetreating || nightCleared || gameOverActive || jumpscareActive) return;
         if (!bonnieMaskActive) return;
 
@@ -16217,6 +16221,7 @@
       };
 
       const advanceChicaFinalStage = (deltaMs) => {
+        if (NIGHT1_SOLO_FREDDY_ONLY) return;
         if (!chicaAttackTriggeredThisNight && !chicaFinalStageActive && !chicaFinalStageRetreating && nightElapsedMs >= chicaAttackScheduledMs) {
           if (chicaMonitorRoom !== null) {
             chicaMonitorRoom = null;
@@ -16592,6 +16597,7 @@
       };
 
       const advanceHolderStage = (deltaMs) => {
+        if (NIGHT1_SOLO_FREDDY_ONLY) return;
         if (!nightStarted || nightCleared || jumpscareActive || gameOverActive || holderRetreatedThisNight) return;
         if (!holderUnlockedThisNight) {
           if (nightElapsedMs < holderUnlockScheduledMs) {
@@ -16824,13 +16830,27 @@
         chicaAttackTriggeredThisNight = false;
         syncRetreatSceneState();
         resetHolderState();
-        chicaAttackScheduledMs = NIGHT1_CHICA_UNLOCK_MS;
-        holderUnlockScheduledMs = NIGHT1_HOLDER_UNLOCK_MS;
+        bonnieAttackScheduledMs = NIGHT1_SOLO_FREDDY_ONLY ? (NIGHT_DURATION_MS + 1000) : (bonnieAttackTimeline[0] || NIGHT1_BONNIE_UNLOCK_MS);
+        chicaAttackScheduledMs = NIGHT1_SOLO_FREDDY_ONLY ? (NIGHT_DURATION_MS + 1000) : NIGHT1_CHICA_UNLOCK_MS;
+        holderUnlockScheduledMs = NIGHT1_SOLO_FREDDY_ONLY ? (NIGHT_DURATION_MS + 1000) : NIGHT1_HOLDER_UNLOCK_MS;
         currentRoom = "classroom-b";
         clearFreddyFakeRetreat();
         freddyAmbushReturn = false;
         resetBonnieState();
         resetChicaFinalStage();
+        if (NIGHT1_SOLO_FREDDY_ONLY) {
+          bonnieCurrentRoom = "classroom-b";
+          bonnieActive = false;
+          bonnieAtLeftPipe = false;
+          bonniePipeRetreating = false;
+          chicaMonitorRoom = "classroom-b";
+          holderUnlockedThisNight = false;
+          holderStage = "room5-stage1";
+          holderStageElapsedMs = 0;
+          holderFlashCount = 0;
+          syncHolderState();
+          refreshHolderMonitor();
+        }
         resetNightUiGate(freddyAttackGate);
         resetNightUiGate(freddyStepGate);
         resetNightUiGate(bonnieAttackGate);
