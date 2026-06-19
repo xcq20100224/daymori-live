@@ -21017,9 +21017,10 @@
         const nightState = getLiveMonitorState();
         const room3UnlockMs = 0;
         const room3Unlocked = Boolean(nightState.started) && Number(nightState.elapsedMs || 0) >= room3UnlockMs;
+        const liveFreddyRoom = (nightState.freddyMonitorRoom ?? freddyMonitorRoom) || null;
         const hasFreddyPresence = currentRoom === "classroom-b"
-          ? room3Unlocked && freddyMonitorRoom === "classroom-b"
-          : currentRoom === freddyMonitorRoom && Boolean(meta.freddyImage);
+          ? room3Unlocked && liveFreddyRoom === "classroom-b"
+          : currentRoom === liveFreddyRoom && Boolean(meta.freddyImage);
         const hasBonniePresence = currentRoom === "classroom-b"
           ? room3Unlocked && !bonnieState.bonniePipeActive && bonnieState.bonnieRoom === "classroom-b"
           : currentRoom === bonnieState.bonnieRoom;
