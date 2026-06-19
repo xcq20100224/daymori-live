@@ -897,16 +897,24 @@
       opacity: 0;
     }
 
-    .door-presence.stage3-active .door-stage3-open {
-      opacity: 1;
+    body.freddy-jumpscare-active .door-presence.stage3-active .door-stage3-open,
+    body.freddy-game-over .door-presence.stage3-active .door-stage3-open {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
       transform: translateZ(0);
       animation: stage-door-lean 2.2s ease-in-out infinite;
     }
 
-    .door-presence.stage3-active .stage3-head-jitter,
-    .door-presence.stage3-active .stage3-arm-left-jitter,
-    .door-presence.stage3-active .stage3-arm-right-jitter {
-      opacity: 0.92;
+    body.freddy-jumpscare-active .door-presence.stage3-active .stage3-head-jitter,
+    body.freddy-game-over .door-presence.stage3-active .stage3-head-jitter,
+    body.freddy-jumpscare-active .door-presence.stage3-active .stage3-arm-left-jitter,
+    body.freddy-game-over .door-presence.stage3-active .stage3-arm-left-jitter,
+    body.freddy-jumpscare-active .door-presence.stage3-active .stage3-arm-right-jitter,
+    body.freddy-game-over .door-presence.stage3-active .stage3-arm-right-jitter {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 0.92 !important;
     }
 
     .door-presence.flashlight-hit .door-stage2-open img,
@@ -12855,6 +12863,13 @@
             <img class="freddy-jitter-part freddy-jitter-arm-right" data-src="assets/freddy-safe-room-stage1.png" data-mobile-src="assets/freddy-safe-room-stage1-mobile.jpg" alt="" decoding="async" />
             <div class="stage2-door-overlap" aria-hidden="true"></div>
           </div>
+          <div class="door-stage3-open">
+            <img class="door-stage3-freddy" data-src="assets/freddy-safe-room-stage1.png" data-mobile-src="assets/freddy-safe-room-stage1-mobile.jpg" data-fallback-src="assets/freddy-user-stage2.jpg" alt="" decoding="async" />
+            <img class="stage3-head-jitter" data-src="assets/freddy-safe-room-stage1.png" data-mobile-src="assets/freddy-safe-room-stage1-mobile.jpg" data-fallback-src="assets/freddy-user-stage2.jpg" alt="" decoding="async" />
+            <img class="stage3-arm-left-jitter" data-src="assets/freddy-safe-room-stage1.png" data-mobile-src="assets/freddy-safe-room-stage1-mobile.jpg" data-fallback-src="assets/freddy-user-stage2.jpg" alt="" decoding="async" />
+            <img class="stage3-arm-right-jitter" data-src="assets/freddy-safe-room-stage1.png" data-mobile-src="assets/freddy-safe-room-stage1-mobile.jpg" data-fallback-src="assets/freddy-user-stage2.jpg" alt="" decoding="async" />
+            <div class="stage3-door-overlap" aria-hidden="true"></div>
+          </div>
           <div class="stage2-breath-shadow"></div>
         </div>
         <div class="edge-blend"></div>
@@ -13057,7 +13072,7 @@
             <div class="showstage-stars-layer" aria-hidden="true"></div>
             <img class="classroom-b-animatronic classroom-b-freddy" src="3114d4bd9e4228cec767d1fa8adfd6aa.jpg" alt="法兰奇" />
             <img class="classroom-b-animatronic classroom-b-bonnie" src="a915b6da7b4382c5a777d545b1fc5567.jpg" alt="伯纳德" />
-            <img class="classroom-b-animatronic classroom-b-chica" src="17adb6ff77b5275534871124a09bdb3f.jpg" alt="Chica" />
+            <img class="classroom-b-animatronic classroom-b-chica" src="17adb6ff77b5275534871124a09bdb3f.jpg" alt="琪亚拉" />
           </div>
 
           <div class="tablet-map" id="tabletMap">
@@ -13253,7 +13268,11 @@
         bonnieJumpscareFigure.removeAttribute("src");
       };
       const hydrateDoorStageImages = (stage) => {
-        const selector = stage === 1 ? ".door-stage1-open img" : ".door-stage2-open img";
+        const selector = stage === 1
+          ? ".door-stage1-open img"
+          : stage === 2
+            ? ".door-stage2-open img"
+            : ".door-stage3-open img";
         Array.from(doorPresence.querySelectorAll(selector)).forEach(hydrateDeferredImage);
       };
       const pickSrcsetFirstEntry = (srcsetValue) => {
@@ -13347,6 +13366,7 @@
       const warmRuntimeImages = () => {
         hydrateDoorStageImages(1);
         hydrateDoorStageImages(2);
+        hydrateDoorStageImages(3);
         hydrateDeferredImage(freddyJumpscareFigure);
         hydrateDeferredImage(bonnieJumpscareFigure);
         if (typeof window.__daymoriWarmSafetyRoomAssets === "function") {
@@ -14345,13 +14365,13 @@
       const PHONE_CALL_LINES = [
         { text: "Hello?", durationMs: 2100 },
         { text: "If you can hear it, don't make a sound. There are some things here that will remember the voice of the living.", durationMs: 7600 },
-        { text: "Before one, they were only awake. After that, they will truly start looking for you.", durationMs: 6200 },
-        { text: "Frankie likes to approach you step by step. When he reaches the door, hit him with the room light. Fast. Don't hesitate. Light can push him back, but if you slow down, he comes straight in.", durationMs: 9800 },
-        { text: "Bernard will take detours through the cameras, like he's waiting for you to get distracted. The alarm can disturb him, but do not waste it. If he reaches the left pipe, put the headgear on immediately and keep it steady. Don't take it off too early.", durationMs: 11200 },
-        { text: "Kiala is more dangerous. She won't give you much time. Once she starts approaching, put the headgear on as fast as you can and keep it on long enough. If you let go too early, she will rush you.", durationMs: 9800 },
-        { text: "And Holder... it starts appearing in Room 5 piece by piece, like it is spelling itself into the world. But the most dangerous moment is when it reaches Cam 3.", durationMs: 9200 },
-        { text: "If you see Holder at Cam 3, use the strong monitor light and flash it continuously. Force it away. You get one chance. If you're too slow, it comes straight for you.", durationMs: 8600 },
-        { text: "Remember. Frankie fears light. Bernard at the pipe means headgear. Kiala means headgear too. Holder at Cam 3 means flash it immediately.", durationMs: 7800 },
+        { text: "Once this call ends, they stop waiting and start looking for you for real.", durationMs: 6200 },
+        { text: "法兰奇 likes to approach you step by step. When he reaches the door, hit him with the room light. Fast. Don't hesitate. Light can push him back, but if you slow down, he comes straight in.", durationMs: 9800 },
+        { text: "伯纳德 will take detours through the cameras, like he's waiting for you to get distracted. The alarm can disturb him, but do not waste it. If he reaches the left pipe, put the headgear on immediately and keep it steady. Don't take it off too early.", durationMs: 11200 },
+        { text: "琪亚拉 is more dangerous. She won't give you much time. Once she starts approaching, put the headgear on as fast as you can and keep it on long enough. If you let go too early, she will rush you.", durationMs: 9800 },
+        { text: "And 霍尔德... it starts appearing in Room 5 piece by piece, like it is spelling itself into the world. But the most dangerous moment is when it reaches Cam 3.", durationMs: 9200 },
+        { text: "If you see 霍尔德 at Cam 3, use the strong monitor light and flash it continuously. Force it away. You get one chance. If you're too slow, it comes straight for you.", durationMs: 8600 },
+        { text: "Remember. 法兰奇 fears light. 伯纳德 at the pipe means headgear. 琪亚拉 means headgear too. 霍尔德 at Cam 3 means flash it immediately.", durationMs: 7800 },
         { text: "Don't believe in silence. They are not gone. They're just not in front of you yet... I hope you make it to six.", durationMs: 7800 },
       ];
 
@@ -14710,6 +14730,7 @@
 
         body.classList.remove("freddy-blackout-active", "freddy-blackout-release", "tablet-open", "tablet-closing", "bonnie-jumpscare-active", "bonnie-last-attacker");
         body.classList.add("freddy-jumpscare-active");
+        hydrateDoorStageImages(3);
         const tabletScreen = document.getElementById("tabletScreen");
         if (tabletScreen) {
           tabletScreen.setAttribute("aria-hidden", "true");
@@ -16648,11 +16669,35 @@
         updateNightDebug();
       };
 
+      const isSameMonitorRoom = (leftRoom, rightRoom) => {
+        if (!leftRoom || !rightRoom) return false;
+        if (leftRoom === rightRoom) return true;
+        return (leftRoom === "classroom-b" && rightRoom === "room3") || (leftRoom === "room3" && rightRoom === "classroom-b");
+      };
+
+      const getFreddyRouteBlockingOccupant = (targetRoom) => {
+        if (!targetRoom) return null;
+        if (!bonnieAtLeftPipe && !bonniePipeRetreating && isSameMonitorRoom(bonnieCurrentRoom, targetRoom)) {
+          return "bonnie";
+        }
+        if (isSameMonitorRoom(chicaMonitorRoom, targetRoom)) {
+          return "chica";
+        }
+        return null;
+      };
+
       const enterFreddyRouteStep = (stepIndex) => {
         if (!activeFreddyRoute || nightCleared) return;
         const step = activeFreddyRoute.steps[stepIndex];
         if (!step) {
           beginDoorApproach();
+          return;
+        }
+        if (step.room && getFreddyRouteBlockingOccupant(step.room)) {
+          activeFreddyRouteStepIndex = stepIndex - 1;
+          activeFreddyRouteStep = null;
+          activeFreddyRouteStepMs = 0;
+          updateNightDebug();
           return;
         }
 
@@ -16700,7 +16745,11 @@
       };
 
       const advanceFreddyRoute = (deltaMs) => {
-        if (!activeFreddyRoute || !activeFreddyRouteStep || nightCleared) return;
+        if (!activeFreddyRoute || nightCleared) return;
+        if (!activeFreddyRouteStep) {
+          enterFreddyRouteStep(activeFreddyRouteStepIndex + 1);
+          return;
+        }
 
         const observedRoom = getObservedCameraRoom();
         const isObserved = activeFreddyRouteStep.room && observedRoom === activeFreddyRouteStep.room;
@@ -18138,8 +18187,8 @@
       const roster = [
         { name: "法兰奇", src: "menu-animatronics-latest.png", mobileSrc: "menu-animatronics-latest-mobile.jpg", posX: "55%", posY: "4%", scale: "1.36", offsetY: "36px", cutout: true, darkCutout: true, crop: { x: 0, y: 0, w: 0.5, h: 0.5, inset: 0.02 } },
         { name: "伯纳德", src: "menu-animatronics-latest.png", mobileSrc: "menu-animatronics-latest-mobile.jpg", posX: "54%", posY: "3%", scale: "1.46", offsetY: "40px", cutout: true, darkCutout: true, crop: { x: 0.5, y: 0, w: 0.5, h: 0.5, inset: 0.02 } },
-        { name: "Chica", src: "menu-animatronics-latest.png", mobileSrc: "menu-animatronics-latest-mobile.jpg", posX: "54%", posY: "3%", scale: "1.44", offsetY: "40px", cutout: true, darkCutout: true, crop: { x: 0, y: 0.5, w: 0.5, h: 0.5, inset: 0.02 } },
-        { name: "Foxy", src: "menu-animatronics-latest.png", mobileSrc: "menu-animatronics-latest-mobile.jpg", posX: "55%", posY: "3%", scale: "1.48", offsetY: "42px", cutout: true, darkCutout: true, crop: { x: 0.5, y: 0.5, w: 0.5, h: 0.5, inset: 0.02 } },
+        { name: "琪亚拉", src: "menu-animatronics-latest.png", mobileSrc: "menu-animatronics-latest-mobile.jpg", posX: "54%", posY: "3%", scale: "1.44", offsetY: "40px", cutout: true, darkCutout: true, crop: { x: 0, y: 0.5, w: 0.5, h: 0.5, inset: 0.02 } },
+        { name: "霍尔德", src: "menu-animatronics-latest.png", mobileSrc: "menu-animatronics-latest-mobile.jpg", posX: "55%", posY: "3%", scale: "1.48", offsetY: "42px", cutout: true, darkCutout: true, crop: { x: 0.5, y: 0.5, w: 0.5, h: 0.5, inset: 0.02 } },
       ];
       let preparedRoster = roster.slice();
 
